@@ -110,22 +110,22 @@ import java.util.Locale
 @AndroidEntryPoint
 class LandingActivity: BaseActivity() {
 
+    // ✅ Fix for Android 13+ tablets: Apply configuration override BEFORE onCreate
+    override fun applyOverrideConfiguration(overrideConfiguration: android.content.res.Configuration?) {
+        if (overrideConfiguration != null) {
+            val originalScale = overrideConfiguration.fontScale
+            val limitedScale = originalScale.coerceIn(0.85f, 1.15f)
+            overrideConfiguration.fontScale = limitedScale
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Don't install splash screen API - we use custom overlay instead
         super.onCreate(savedInstanceState)
 
         // Enable edge-to-edge for proper Android 36 support
         enableEdgeToEdge()
-
-        val configuration = resources.configuration
-        val originalScale = configuration.fontScale
-        val limitedScale = originalScale.coerceIn(0.85f, 1.15f)
-
-        if (originalScale != limitedScale) {
-            configuration.fontScale = limitedScale
-            val newContext = createConfigurationContext(configuration)
-            applyOverrideConfiguration(newContext.resources.configuration)
-        }
 
         setContent {
             // Set window to non-translucent once Compose is ready to avoid flickering

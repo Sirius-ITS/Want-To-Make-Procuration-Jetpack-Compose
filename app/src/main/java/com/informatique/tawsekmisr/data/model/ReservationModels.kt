@@ -170,7 +170,7 @@ data class InquireReservation(
 @Serializable
 data class InquireMyReserveResponse(
     @SerialName("inquireReserve")
-    val inquireReserve: List<InquireReservation>,
+    val inquireReserve: List<InquireReservation>? = null, // Make optional for 404 responses
     @SerialName("statusCode")
     val statusCode: String,
     @SerialName("statusMessage")

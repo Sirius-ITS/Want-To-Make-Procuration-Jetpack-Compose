@@ -5,20 +5,38 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
+# ✅ Aggressive optimization flags
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-verbose
+-allowaccessmodification
+-repackageclasses ''
+-overloadaggressively
+-optimizations !code/simplification/arithmetic,!code/simplification/cast,!field/*,!class/merging/*
+
 # Preserve line numbers for debugging
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Kotlin
--keep class kotlin.** { *; }
+# ✅ More aggressive - remove all attributes except essential ones
+-keepattributes Signature,Exceptions,*Annotation*,InnerClasses,EnclosingMethod
+
+# Kotlin - Optimized (less aggressive keep)
 -keep class kotlin.Metadata { *; }
 -dontwarn kotlin.**
 -keepclassmembers class **$WhenMappings {
     <fields>;
 }
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    static void checkParameterIsNotNull(java.lang.Object, java.lang.String);
+    static void checkNotNullParameter(java.lang.Object, java.lang.String);
+    static void checkNotNullExpressionValue(java.lang.Object, java.lang.String);
+    static void checkExpressionValueIsNotNull(java.lang.Object, java.lang.String);
+    static void throwUninitializedPropertyAccessException(java.lang.String);
+}
 
 # Kotlinx Serialization
--keepattributes *Annotation*, InnerClasses
 -dontnote kotlinx.serialization.AnnotationsKt
 -keepclassmembers class kotlinx.serialization.json.** {
     *** Companion;
@@ -34,9 +52,10 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
-# Ktor - Fixed for Android
--keep class io.ktor.** { *; }
--keep class kotlinx.coroutines.** { *; }
+# Ktor - Minimal keep rules
+-keep class io.ktor.client.** { *; }
+-keep class io.ktor.http.** { *; }
+-keep class io.ktor.utils.** { *; }
 -dontwarn kotlinx.atomicfu.**
 -dontwarn io.netty.**
 -dontwarn com.typesafe.**
@@ -47,36 +66,32 @@
 -dontwarn java.lang.management.RuntimeMXBean
 -dontwarn javax.management.**
 
-# Hilt
--keep class dagger.** { *; }
+# Hilt - Minimal
+-keep class dagger.hilt.** { *; }
 -keep class javax.inject.** { *; }
 -keep class * extends dagger.hilt.android.internal.managers.ViewComponentManager$FragmentContextWrapper { *; }
 -dontwarn com.google.errorprone.annotations.**
 
-# Jetpack Compose
--keep class androidx.compose.** { *; }
--keep class androidx.compose.runtime.** { *; }
+# Jetpack Compose - More aggressive
 -dontwarn androidx.compose.**
+-keep class androidx.compose.runtime.** { *; }
+-keepclassmembers class androidx.compose.** {
+    <init>(...);
+}
 
-# Google Play Services & Maps
--keep class com.google.android.gms.** { *; }
+# Google Play Services & Maps - Minimal
+-keep class com.google.android.gms.maps.** { *; }
+-keep class com.google.android.gms.location.** { *; }
 -dontwarn com.google.android.gms.**
--keep class com.google.maps.** { *; }
 
-# Room
+# Room - Minimal
 -keep class * extends androidx.room.RoomDatabase
 -keep @androidx.room.Entity class *
 -dontwarn androidx.room.paging.**
 
 # Data classes and models (adjust package name)
--keep class com.informatique.tawsekmisr.data.** { *; }
--keep class com.informatique.tawsekmisr.domain.** { *; }
-
-# Prevent stripping of generic signatures
--keepattributes Signature
-
-# Prevent stripping of annotations
--keepattributes *Annotation*
+-keep class com.informatique.tawsekmisr.data.model.** { *; }
+-keep class com.informatique.tawsekmisr.domain.model.** { *; }
 
 # For native methods
 -keepclasseswithmembernames class * {
@@ -84,7 +99,7 @@
 }
 
 # For enumeration classes
--keepclassmembers enum * {
+-keepclassmembers,allowoptimization enum * {
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
@@ -96,9 +111,35 @@
 
 # AndroidX Test - Fix for missing concurrent futures
 -dontwarn androidx.concurrent.futures.SuspendToFutureAdapter
--keep class androidx.concurrent.futures.** { *; }
 
-# Debugging - Remove these for production
--printmapping build/outputs/mapping/release/mapping.txt
--printseeds build/outputs/mapping/release/seeds.txt
--printusage build/outputs/mapping/release/usage.txt
+# ✅ Remove ALL logging in release builds (more aggressive)
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+    public static *** wtf(...);
+}
+
+# ✅ Remove print statements
+-assumenosideeffects class kotlin.io.ConsoleKt {
+    public static *** println(...);
+    public static *** print(...);
+}
+
+# ✅ Remove printStackTrace calls
+-assumenosideeffects class java.lang.Throwable {
+    public void printStackTrace();
+}
+
+# ✅ Remove toString() calls on final classes (reduces code)
+-assumenosideeffects class java.lang.StringBuilder {
+    public java.lang.String toString();
+}
+
+# ✅ Remove debug/verbose code
+-assumenosideeffects class * {
+    public void debug(...);
+    public void trace(...);
+}

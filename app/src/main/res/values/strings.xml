@@ -114,6 +114,10 @@
     <string name="error_time_required">Please select an appointment time</string>
     <string name="error_confirmation_required">Please confirm that all data is correct</string>
 
+    <!-- Booking Inquiry -->
+    <string name="no_reservations_found">No reservations found</string>
+    <string name="no_reservations_for_id">No reservations for that national ID</string>
+
     <!-- File Viewer -->
     <string name="file_viewer">File Viewer</string>
     <string name="back">Back</string>

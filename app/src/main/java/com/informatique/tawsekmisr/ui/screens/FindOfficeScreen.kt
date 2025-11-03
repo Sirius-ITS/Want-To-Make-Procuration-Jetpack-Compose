@@ -227,7 +227,7 @@ fun FindOfficeScreen(
                     color = extraColors.textBlue
                 )
                 Text(
-                    text = "${filteredOffices.size} ${localizedApp(R.string.offices_available)}",
+                    text = "${localizedApp(R.string.offices_available)} ${filteredOffices.size}",
                     fontSize = 14.sp,
                     color = extraColors.textGray
                 )

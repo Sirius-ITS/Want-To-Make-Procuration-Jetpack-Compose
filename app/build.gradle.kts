@@ -21,6 +21,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "com.informatique.tawsekmisr.HiltTestRunner"
+
+        // ✅ Enable vector drawable support to reduce image sizes
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -34,12 +37,68 @@ android {
             )
         }
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true  // ✅ Enable R8 code shrinking
+            isShrinkResources = true  // ✅ Remove unused resources
             buildConfigField("String", "API_KEY", "\"51563d451c6f724bd8ab8b996d791403\"")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+            // ✅ More aggressive optimizations
+            ndk {
+                debugSymbolLevel = "NONE"  // Remove debug symbols from native libraries
+            }
+
+            // ✅ Enable R8 full mode optimizations
+            isDebuggable = false
+            isJniDebuggable = false
+            isPseudoLocalesEnabled = false
+            isCrunchPngs = true  // Compress PNG files
+
+            // ✅ Optimize resources
+            @Suppress("UnstableApiUsage")
+            optimization {
+                keepRules {
+                }
+            }
+        }
+    }
+
+    // ✅ Split APK by ABI to reduce size (each APK will only contain native libs for specific architecture)
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a")
+            isUniversalApk = false  // Set to true if you need one APK with all ABIs
+        }
+    }
+
+    // ✅ Packaging options to exclude unnecessary files
+    packaging {
+        resources {
+            excludes += setOf(
+                "META-INF/DEPENDENCIES",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/license.txt",
+                "META-INF/NOTICE",
+                "META-INF/NOTICE.txt",
+                "META-INF/notice.txt",
+                "META-INF/ASL2.0",
+                "META-INF/*.kotlin_module",
+                "META-INF/INDEX.LIST",
+                "META-INF/io.netty.versions.properties",
+                "META-INF/*.version",
+                "DebugProbesKt.bin",
+                "kotlin-tooling-metadata.json",
+                "kotlin/**",
+                "okhttp3/**"
+            )
+        }
+        jniLibs {
+            useLegacyPackaging = false  // Use compressed native libraries
         }
     }
 
@@ -63,6 +122,21 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
+
+    // ✅ Optimize Kotlin compilation
+    kotlinOptions {
+        freeCompilerArgs += listOf(
+            "-Xno-param-assertions",
+            "-Xno-call-assertions",
+            "-Xno-receiver-assertions"
+        )
+    }
+}
+
+// ✅ Exclude unused dependencies at compile time
+configurations.all {
+    exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")
+    exclude(group = "androidx.lifecycle", module = "lifecycle-viewmodel-ktx")
 }
 
 dependencies {
@@ -86,15 +160,8 @@ dependencies {
     implementation(libs.activity.compose)
     implementation(libs.coil.compose)
 
-    // --- Accompanist ---
-    implementation(libs.accompanist.systemuicontroller)
-    implementation(libs.accompanist.navigation.animation)
-
-    // --- Lifecycle ---
-    implementation(libs.lifecycle.viewmodel.ktx)
+    // --- Lifecycle (removed duplicate viewmodel-ktx) ---
     implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
-    implementation(libs.lifecycle.viewmodel.savedstate)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.lifecycle.runtime.compose)
 
@@ -109,10 +176,6 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.serialization.kotlinx.json)
-
-    // --- Logging ---
-    implementation(libs.slf4j.api)
-    implementation(libs.slf4j.simple)
 
     // --- Hilt ---
     implementation(libs.hilt.android)
@@ -129,19 +192,13 @@ dependencies {
     // --- WorkManager ---
     implementation(libs.work.runtime)
 
-    // --- Paging ---
-    implementation(libs.paging.runtime)
-    implementation(libs.paging.compose)
-
     // --- DataStore ---
     implementation(libs.datastore.preferences)
 
     // --- Splash Screen ---
     implementation(libs.core.splashscreen)
 
-    // --- Navigation ---
-    implementation(libs.navigation.fragment)
-    implementation(libs.navigation.ui)
+    // --- Navigation Compose (only) ---
     implementation(libs.navigation.compose)
 
     // --- Google Play Services Location ---
@@ -158,7 +215,6 @@ dependencies {
     implementation(libs.jversionchecker)
     implementation(libs.app.update)
 
-
     // --- Tests ---
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -168,12 +224,9 @@ dependencies {
     testImplementation(libs.coroutines.test)
     testImplementation(libs.turbine)
 
-    implementation(libs.androidx.concurrent.futures.ktx)
-
     // --- Hilt Testing ---
     testImplementation(libs.hilt.android)
     add("kspTest", libs.hilt.compiler)
     androidTestImplementation(libs.hilt.android)
     add("kspAndroidTest", libs.hilt.compiler)
-
 }

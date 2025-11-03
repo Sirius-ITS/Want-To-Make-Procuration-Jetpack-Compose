@@ -56,10 +56,10 @@ class BookingInquiryStrategy @Inject constructor(
             val result = reservationApiService.getInquireMyReserve(nationalId)
             result.fold(
                 onSuccess = { response ->
-                    if (response.statusCode == "200") {
-                        Result.success(response.inquireReserve)
-                    } else {
-                        Result.failure(Exception(response.statusMessage))
+                    when (response.statusCode) {
+                        "200" -> Result.success(response.inquireReserve ?: emptyList())
+                        "404" -> Result.success(emptyList()) // No reservations found - return empty list
+                        else -> Result.failure(Exception(response.statusMessage))
                     }
                 },
                 onFailure = { error ->
@@ -213,4 +213,3 @@ data class ReservationStats(
     val upcoming: Int,
     val past: Int
 )
-

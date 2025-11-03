@@ -154,7 +154,7 @@ fun BookingInquiryScreen(
                         Text(
                             text = "جاري التحقق...",
                             fontSize = 12.sp,
-                            color = Color.Gray
+                            color = extraColors.textGray
                         )
                     }
                 } else if (nationalIdValidation is NationalIdValidationState.Valid) {
@@ -274,19 +274,19 @@ fun BookingInquiryScreen(
                             Icon(
                                 imageVector = Icons.Default.EventBusy,
                                 contentDescription = null,
-                                tint = Color.Gray,
+                                tint = extraColors.gold,
                                 modifier = Modifier.size(64.dp)
                             )
                             Text(
-                                text = "لا توجد حجوزات",
+                                text = localizedApp(R.string.no_reservations_found),
                                 fontSize = 16.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Gray
+                                fontWeight = FontWeight.Bold,
+                                color = extraColors.textDarkGray
                             )
                             Text(
-                                text = "لم يتم العثور على أي حجوزات لهذا الرقم القومي",
+                                text = localizedApp(R.string.no_reservations_for_id),
                                 fontSize = 12.sp,
-                                color = Color.Gray
+                                color = extraColors.textGray
                             )
                         }
                     }

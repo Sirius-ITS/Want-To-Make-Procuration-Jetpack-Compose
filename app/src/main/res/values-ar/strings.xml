@@ -114,6 +114,10 @@
     <string name="error_time_required">يرجى اختيار وقت الموعد</string>
     <string name="error_confirmation_required">يرجى التأكيد على صحة جميع البيانات</string>
 
+    <!-- Booking Inquiry -->
+    <string name="no_reservations_found">لا توجد حجوزات</string>
+    <string name="no_reservations_for_id">لم يتم العثور على أي حجوزات لهذا الرقم القومي</string>
+
     <!-- File Viewer -->
     <string name="file_viewer">عارض الملفات</string>
     <string name="back">رجوع</string>
