@@ -7,15 +7,41 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -124,7 +150,7 @@ fun WebViewScreen(
                             navController.popBackStack()
                         }) {
                             Icon(
-                                imageVector = Icons.Default.Close,
+                                imageVector = Icons.Rounded.Close,
                                 contentDescription = "Close"
                             )
                         }
@@ -181,10 +207,10 @@ fun WebViewScreen(
                                 }
                             },
                         color = if (canGoBack) Color(0xFF6EB3A6).copy(alpha = 0.15f)
-                               else Color(0xFFF2F4F7)
+                        else Color(0xFFF2F4F7)
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = backContentDesc,
                             tint = if (canGoBack) Color(0xFF6EB3A6) else Color.Gray,
                             modifier = Modifier.padding(12.dp)
@@ -206,10 +232,10 @@ fun WebViewScreen(
                                 }
                             },
                         color = if (canGoForward) Color(0xFF6EB3A6).copy(alpha = 0.15f)
-                               else Color(0xFFF2F4F7)
+                        else Color(0xFFF2F4F7)
                     ) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                             contentDescription = forwardContentDesc,
                             tint = if (canGoForward) Color(0xFF6EB3A6) else Color.Gray,
                             modifier = Modifier.padding(12.dp)
@@ -228,7 +254,7 @@ fun WebViewScreen(
                         color = Color(0xFF6EB3A6).copy(alpha = 0.15f)
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Refresh,
+                            imageVector = Icons.Rounded.Refresh,
                             contentDescription = refreshContentDesc,
                             tint = Color(0xFF6EB3A6),
                             modifier = Modifier.padding(12.dp)
@@ -417,7 +443,7 @@ fun WebViewScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Default.Refresh,
+                            imageVector = Icons.Rounded.Refresh,
                             contentDescription = null,
                             tint = Color.Gray,
                             modifier = Modifier.size(72.dp)
@@ -448,7 +474,7 @@ fun WebViewScreen(
                             shape = CircleShape
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Refresh,
+                                imageVector = Icons.Rounded.Refresh,
                                 contentDescription = null,
                                 modifier = Modifier.size(20.dp)
                             )

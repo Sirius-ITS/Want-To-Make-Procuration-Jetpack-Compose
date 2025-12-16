@@ -1,17 +1,45 @@
 package com.informatique.tawsekmisr.ui.screens
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.AccountBalance
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Category
+import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.Error
+import androidx.compose.material.icons.rounded.EventBusy
+import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,12 +50,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.informatique.tawsekmisr.R
 import com.informatique.tawsekmisr.data.model.InquireReservation
-import com.informatique.tawsekmisr.ui.components.*
+import com.informatique.tawsekmisr.ui.components.CommonButton
+import com.informatique.tawsekmisr.ui.components.CustomTextField
+import com.informatique.tawsekmisr.ui.components.localizedApp
 import com.informatique.tawsekmisr.ui.theme.LocalExtraColors
 import com.informatique.tawsekmisr.ui.viewmodels.BookingInquiryViewModel
 import com.informatique.tawsekmisr.ui.viewmodels.NationalIdValidationState
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +89,7 @@ fun BookingInquiryScreen(
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = "Back"
                         )
                     }
@@ -100,7 +130,7 @@ fun BookingInquiryScreen(
                             color = extraColors.iconLightBackground
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Search,
+                                imageVector = Icons.Rounded.Search,
                                 contentDescription = null,
                                 tint = extraColors.iconLightBlue,
                                 modifier = Modifier.padding(12.dp)
@@ -163,7 +193,7 @@ fun BookingInquiryScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
-                            imageVector = Icons.Default.CheckCircle,
+                            imageVector = Icons.Rounded.CheckCircle,
                             contentDescription = "Valid",
                             tint = Color(110, 179, 166),
                             modifier = Modifier.size(16.dp)
@@ -219,7 +249,7 @@ fun BookingInquiryScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.Error,
+                                imageVector = Icons.Rounded.Error,
                                 contentDescription = null,
                                 tint = Color(244, 67, 54),
                                 modifier = Modifier.size(24.dp)
@@ -272,7 +302,7 @@ fun BookingInquiryScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Icon(
-                                imageVector = Icons.Default.EventBusy,
+                                imageVector = Icons.Rounded.EventBusy,
                                 contentDescription = null,
                                 tint = extraColors.gold,
                                 modifier = Modifier.size(64.dp)
@@ -305,8 +335,8 @@ private fun ReservationCard(reservation: InquireReservation) {
     // Parse and format date
     val formattedDate = remember(reservation.reservationDate) {
         try {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault())
-            val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
             val date = inputFormat.parse(reservation.reservationDate)
             date?.let { outputFormat.format(it) } ?: reservation.reservationDate
         } catch (e: Exception) {
@@ -320,8 +350,8 @@ private fun ReservationCard(reservation: InquireReservation) {
             "1", "4" -> {
                 // Format: "2023-09-18 12:00:00.0" -> "12:00"
                 try {
-                    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.getDefault())
-                    val outputFormat = SimpleDateFormat("hh:mm a", Locale("ar"))
+                    val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S", Locale.ENGLISH)
+                    val outputFormat = SimpleDateFormat("hh:mm a", Locale.ENGLISH)
                     val time = inputFormat.parse(reservation.reserveTime)
                     time?.let { outputFormat.format(it) } ?: reservation.reserveTime
                 } catch (e: Exception) {
@@ -356,7 +386,7 @@ private fun ReservationCard(reservation: InquireReservation) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.AccountBalance,
+                        imageVector = Icons.Rounded.AccountBalance,
                         contentDescription = null,
                         tint = LocalExtraColors.current.iconDarkBlue,
                         modifier = Modifier.size(20.dp)
@@ -393,7 +423,7 @@ private fun ReservationCard(reservation: InquireReservation) {
 
             // Transaction Category
             InfoRow(
-                icon = Icons.Default.Category,
+                icon = Icons.Rounded.Category,
                 iconColor =LocalExtraColors.current.iconLightBlue,
                 label = "التصنيف",
                 value = reservation.transactionDesc
@@ -403,7 +433,7 @@ private fun ReservationCard(reservation: InquireReservation) {
 
             // Transaction Type
             InfoRow(
-                icon = Icons.Default.Description,
+                icon = Icons.Rounded.Description,
                 iconColor =LocalExtraColors.current.iconLightBlue,
                 label = "نوع المعاملة",
                 value = reservation.transactionTypeDesc
@@ -419,7 +449,7 @@ private fun ReservationCard(reservation: InquireReservation) {
                 // Date
                 Box(modifier = Modifier.weight(1f)) {
                     InfoRow(
-                        icon = Icons.Default.CalendarMonth,
+                        icon = Icons.Rounded.CalendarMonth,
                         iconColor =LocalExtraColors.current.iconLightBlue,
                         label = "التاريخ",
                         value = formattedDate
@@ -429,7 +459,7 @@ private fun ReservationCard(reservation: InquireReservation) {
                 // Time
                 Box(modifier = Modifier.weight(1f)) {
                     InfoRow(
-                        icon = Icons.Default.Schedule,
+                        icon = Icons.Rounded.Schedule,
                         iconColor =LocalExtraColors.current.iconLightBlue,
                         label = "الوقت",
                         value = formattedTime

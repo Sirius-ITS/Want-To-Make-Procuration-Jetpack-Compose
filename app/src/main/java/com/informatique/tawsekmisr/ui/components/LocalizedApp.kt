@@ -3,7 +3,7 @@ package com.informatique.tawsekmisr.ui.components
 import android.annotation.SuppressLint
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.informatique.tawsekmisr.common.util.LocalAppLocale
 

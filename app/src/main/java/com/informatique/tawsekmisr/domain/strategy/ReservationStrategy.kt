@@ -39,8 +39,8 @@ class VipReservationStrategy : ReservationStrategy {
         agenda: OfficeAgendaResponse?
     ): ReserveProcRequest {
         // Convert date from dd/MM/yyyy to dd-MM-yyyy format for API
-        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val apiDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val apiDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
         val dateForApi = try {
             val parsedDate = displayDateFormat.parse(date)
             parsedDate?.let { apiDateFormat.format(it) } ?: date.replace("/", "-")
@@ -80,8 +80,8 @@ class StandardReservationStrategy : ReservationStrategy {
         agenda: OfficeAgendaResponse?
     ): ReserveProcRequest {
         // Convert date from dd/MM/yyyy to dd-MM-yyyy format for API
-        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        val apiDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val apiDateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH)
         val dateForApi = try {
             val parsedDate = displayDateFormat.parse(date)
             parsedDate?.let { apiDateFormat.format(it) } ?: date.replace("/", "-")
@@ -109,8 +109,8 @@ class StandardReservationStrategy : ReservationStrategy {
     }
 
     private fun findPeriodCode(date: String, time: String, agenda: OfficeAgendaResponse?): String {
-        val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
 
         val dateToMatch = try {
             val parsedDate = displayDateFormat.parse(date)

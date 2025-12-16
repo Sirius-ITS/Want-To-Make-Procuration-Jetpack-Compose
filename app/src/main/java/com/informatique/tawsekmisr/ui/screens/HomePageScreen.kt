@@ -5,23 +5,38 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTimeFilled
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.CalendarMonth
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.LocationCity
-import androidx.compose.material.icons.filled.PersonOutline
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.VerifiedUser
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.outlined.PersonOutline
+import androidx.compose.material.icons.rounded.AccessTimeFilled
+import androidx.compose.material.icons.rounded.Bolt
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.LocationCity
+import androidx.compose.material.icons.rounded.PersonOutline
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Settings
+import androidx.compose.material.icons.rounded.Shield
+import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -53,6 +68,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun HomePageScreen(navController: NavController) {
     val extraColors = LocalExtraColors.current
@@ -83,20 +99,33 @@ fun HomePageScreen(navController: NavController) {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.weight(1f)
                 ) {
-                    Surface(
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(CircleShape),
-                        color = extraColors.iconDarkBlue
+                    Box(
+                        modifier = Modifier.size(50.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.PersonOutline,
-                            contentDescription = "Profile",
-                            tint = Color.White,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
+                        // الدائرة الخارجية (شفافة جداً)
+                        Surface(
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape),
+                            color = extraColors.surface1PersonIcon
+                        ) {}
 
+                        // الدائرة الداخلية مع الأيقونة
+                        Surface(
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clip(CircleShape),
+                            color =  extraColors.iconDarkBlue
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Person,
+                                contentDescription = "Profile",
+                                tint = extraColors.surface1PersonIcon,
+                                modifier = Modifier.padding(2.dp)
+                            )
+                        }
+                    }
                     Spacer(modifier = Modifier.width(12.dp))
 
                     // Welcome Text beside profile icon
@@ -104,14 +133,15 @@ fun HomePageScreen(navController: NavController) {
                         Text(
                             text = localizedApp(R.string.hello_label),
                             fontSize = 22.sp,
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.Bold,
                             color = extraColors.textBlue
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
                             text = localizedApp(R.string.how_can_help),
-                            fontSize = 13.sp,
-                            color = extraColors.textGray
+                            fontSize = 16.sp,
+                            color = extraColors.textGray,
+                            fontWeight = FontWeight.Light
                         )
                     }
                 }
@@ -125,7 +155,7 @@ fun HomePageScreen(navController: NavController) {
                     color = extraColors.homeVerticalCardBackground
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Settings,
+                        imageVector = Icons.Rounded.Settings,
                         contentDescription = "Settings",
                         tint = extraColors.iconSettings,
                         modifier = Modifier.padding(12.dp)
@@ -153,7 +183,7 @@ fun HomePageScreen(navController: NavController) {
                 ) {
                     // 24/7 Feature
                     FeatureBox(
-                        icon = Icons.Default.AccessTimeFilled,
+                        icon = Icons.Rounded.AccessTimeFilled,
                         iconColor = extraColors.iconDarkBlue,
                         title = localizedApp(R.string.feature_24_7),
                         subtitle = localizedApp(R.string.feature_24_7_desc),
@@ -163,13 +193,13 @@ fun HomePageScreen(navController: NavController) {
                     Divider(
                         color = Color.Gray,
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(40.dp)
                             .width(1.dp).align(Alignment.CenterVertically)
                     )
 
                     // Safe Feature
                     FeatureBox(
-                        icon = Icons.Default.Shield,
+                        icon = Icons.Rounded.Shield,
                         iconColor = extraColors.green,
                         title = localizedApp(R.string.feature_safe),
                         subtitle = localizedApp(R.string.feature_safe_desc),
@@ -179,13 +209,13 @@ fun HomePageScreen(navController: NavController) {
                     Divider(
                         color = Color.Gray,
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(40.dp)
                             .width(1.dp).align(Alignment.CenterVertically)
                     )
 
                     // Fast Feature
                     FeatureBox(
-                        icon = Icons.Default.Bolt,
+                        icon = Icons.Rounded.Bolt,
                         iconColor = extraColors.gold,
                         title = localizedApp(R.string.feature_fast),
                         subtitle = localizedApp(R.string.feature_fast_desc),
@@ -199,8 +229,8 @@ fun HomePageScreen(navController: NavController) {
             // Available Services Title
             Text(
                 text = localizedApp(R.string.available_services_title),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.SemiBold,
                 color = extraColors.textBlue,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -212,42 +242,42 @@ fun HomePageScreen(navController: NavController) {
                 ServiceData(
                     titleRes = R.string.service_branch_load,
                     descRes = R.string.service_branch_load_desc,
-                    icon = Icons.Default.LocationCity,
+                    icon = Icons.Rounded.LocationCity,
                     color = extraColors.accent,
                     route = "branch_load"
                 ),
                 ServiceData(
                     titleRes = R.string.service_book_appointment,
                     descRes = R.string.service_book_appointment_desc,
-                    icon = Icons.Default.CalendarMonth,
+                    icon = Icons.Rounded.CalendarMonth,
                     color = extraColors.accent,
                     route = "book_appointment"
                 ),
                 ServiceData(
                     titleRes = R.string.service_forms,
                     descRes = R.string.service_forms_desc,
-                    icon = Icons.Default.Description,
+                    icon = Icons.Rounded.Description,
                     color = extraColors.green,
                     route = "forms"
                 ),
                 ServiceData(
                     titleRes = R.string.service_enotary,
                     descRes = R.string.service_enotary_desc,
-                    icon = Icons.Default.VerifiedUser,
+                    icon = Icons.Rounded.VerifiedUser,
                     color = extraColors.green,
                     route = "enotary"
                 ),
                 ServiceData(
                     titleRes = R.string.service_booking_inquiry,
                     descRes = R.string.service_booking_inquiry_desc,
-                    icon = Icons.Default.Search,
+                    icon = Icons.Rounded.Search,
                     color = extraColors.gold,
                     route = "booking_inquiry"
                 ),
                 ServiceData(
                     titleRes = R.string.service_other_services,
                     descRes = R.string.service_other_services_desc,
-                    icon = Icons.Default.GridView,
+                    icon = Icons.Rounded.GridView,
                     color = extraColors.gold,
                     route = "other_services"
                 )
@@ -291,19 +321,19 @@ private fun FeatureBox(
             imageVector = icon,
             contentDescription = null,
             tint = iconColor,
-            modifier = Modifier.size(40.dp)
+            modifier = Modifier.size(28.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = title,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
             color = extraColors.textBlue
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = subtitle,
-            fontSize = 14.sp,
+            fontSize = 12.sp,
             color = extraColors.textGray,
             fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Center
@@ -410,7 +440,7 @@ private fun ServiceCardHorizontal(
                     imageVector = icon,
                     contentDescription = null,
                     tint = Color.White,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(44.dp)
                 )
             }
 
@@ -423,7 +453,7 @@ private fun ServiceCardHorizontal(
             ) {
                 Text(
                     text = title,
-                    fontSize = 18.sp,
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = extraColors.textBlue,
                     textAlign = TextAlign.Start,
@@ -435,8 +465,8 @@ private fun ServiceCardHorizontal(
 
                 Text(
                     text = subtitle,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Light,
                     color = extraColors.textGray,
                     textAlign = TextAlign.Start,
                     maxLines = 2,

@@ -12,15 +12,39 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -166,67 +190,67 @@ fun NativeFileViewer(
             else -> {
                 // Permission granted - proceed with file display
                 when {
-            // Images: JPG, PNG, GIF, BMP, WEBP
-            mimeType.startsWith("image/") -> {
-                NativeImageViewer(
-                    context = context,
-                    uri = actualUri,
-                    fileName = fileName,
-                    onError = { error = it }
-                )
-            }
+                    // Images: JPG, PNG, GIF, BMP, WEBP
+                    mimeType.startsWith("image/") -> {
+                        NativeImageViewer(
+                            context = context,
+                            uri = actualUri,
+                            fileName = fileName,
+                            onError = { error = it }
+                        )
+                    }
 
-            // PDF files
-            mimeType == "application/pdf" || fileName?.endsWith(".pdf", ignoreCase = true) == true -> {
-                NativePdfViewer(
-                    context = context,
-                    uri = actualUri,
-                    fileName = fileName,
-                    onError = { error = it }
-                )
-            }
+                    // PDF files
+                    mimeType == "application/pdf" || fileName?.endsWith(".pdf", ignoreCase = true) == true -> {
+                        NativePdfViewer(
+                            context = context,
+                            uri = actualUri,
+                            fileName = fileName,
+                            onError = { error = it }
+                        )
+                    }
 
-            // Text files: TXT, CSV, JSON, XML
-            mimeType.startsWith("text/") ||
-            fileName?.endsWith(".txt", ignoreCase = true) == true ||
-            fileName?.endsWith(".csv", ignoreCase = true) == true ||
-            fileName?.endsWith(".json", ignoreCase = true) == true ||
-            fileName?.endsWith(".xml", ignoreCase = true) == true -> {
-                NativeTextViewer(
-                    context = context,
-                    uri = actualUri,
-                    fileName = fileName,
-                    onError = { error = it }
-                )
-            }
+                    // Text files: TXT, CSV, JSON, XML
+                    mimeType.startsWith("text/") ||
+                            fileName?.endsWith(".txt", ignoreCase = true) == true ||
+                            fileName?.endsWith(".csv", ignoreCase = true) == true ||
+                            fileName?.endsWith(".json", ignoreCase = true) == true ||
+                            fileName?.endsWith(".xml", ignoreCase = true) == true -> {
+                        NativeTextViewer(
+                            context = context,
+                            uri = actualUri,
+                            fileName = fileName,
+                            onError = { error = it }
+                        )
+                    }
 
-            // Office documents: Show basic info and option to open externally
-            mimeType.contains("word", ignoreCase = true) ||
-            mimeType.contains("excel", ignoreCase = true) ||
-            mimeType.contains("powerpoint", ignoreCase = true) ||
-            fileName?.endsWith(".doc", ignoreCase = true) == true ||
-            fileName?.endsWith(".docx", ignoreCase = true) == true ||
-            fileName?.endsWith(".xls", ignoreCase = true) == true ||
-            fileName?.endsWith(".xlsx", ignoreCase = true) == true ||
-            fileName?.endsWith(".ppt", ignoreCase = true) == true ||
-            fileName?.endsWith(".pptx", ignoreCase = true) == true -> {
-                OfficeDocumentMessage(
-                    uri = actualUri,
-                    fileName = fileName,
-                    mimeType = mimeType,
-                    onOpenExternal = onOpenExternal
-                )
-            }
+                    // Office documents: Show basic info and option to open externally
+                    mimeType.contains("word", ignoreCase = true) ||
+                            mimeType.contains("excel", ignoreCase = true) ||
+                            mimeType.contains("powerpoint", ignoreCase = true) ||
+                            fileName?.endsWith(".doc", ignoreCase = true) == true ||
+                            fileName?.endsWith(".docx", ignoreCase = true) == true ||
+                            fileName?.endsWith(".xls", ignoreCase = true) == true ||
+                            fileName?.endsWith(".xlsx", ignoreCase = true) == true ||
+                            fileName?.endsWith(".ppt", ignoreCase = true) == true ||
+                            fileName?.endsWith(".pptx", ignoreCase = true) == true -> {
+                        OfficeDocumentMessage(
+                            uri = actualUri,
+                            fileName = fileName,
+                            mimeType = mimeType,
+                            onOpenExternal = onOpenExternal
+                        )
+                    }
 
-            // Unsupported file type
-            else -> {
-                UnsupportedFileMessage(
-                    fileName = fileName,
-                    mimeType = mimeType,
-                    onOpenExternal = onOpenExternal
-                )
-            }
-        }
+                    // Unsupported file type
+                    else -> {
+                        UnsupportedFileMessage(
+                            fileName = fileName,
+                            mimeType = mimeType,
+                            onOpenExternal = onOpenExternal
+                        )
+                    }
+                }
             }
         }
 
@@ -455,7 +479,7 @@ private fun NativeImageViewer(
                                 containerColor = Color.Black.copy(alpha = 0.6f)
                             )
                         ){
-                                Text("Reset Zoom", color = Color.White)
+                            Text("Reset Zoom", color = Color.White)
                         }
                     }
                 }
@@ -619,7 +643,7 @@ private fun NativePdfViewer(
                                 enabled = currentPage > 0 && isBackEnabled
                             ) {
                                 Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                                     contentDescription = "Previous page"
                                 )
                             }
@@ -643,7 +667,7 @@ private fun NativePdfViewer(
                                 enabled = currentPage < pageCount - 1 && isNextEnabled
                             ) {
                                 Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                                    imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                                     contentDescription = "Next page"
                                 )
                             }
@@ -992,15 +1016,15 @@ private fun extractTextFromOfficeDocument(
 
                 // Legacy formats (.doc, .xls, .ppt) - binary format, harder to parse
                 fileName?.endsWith(".doc", ignoreCase = true) == true ||
-                fileName?.endsWith(".xls", ignoreCase = true) == true ||
-                fileName?.endsWith(".ppt", ignoreCase = true) == true -> {
+                        fileName?.endsWith(".xls", ignoreCase = true) == true ||
+                        fileName?.endsWith(".ppt", ignoreCase = true) == true -> {
                     "📄 ${getFileTypeDescription(fileName, null)}\n\n" +
-                    "This is a legacy Office format that requires specialized parsing.\n\n" +
-                    "To view this document, please tap 'Open in App' above and choose:\n" +
-                    "• Microsoft Office (Word, Excel, PowerPoint)\n" +
-                    "• Google Docs/Sheets/Slides\n" +
-                    "• WPS Office\n" +
-                    "• Other compatible apps"
+                            "This is a legacy Office format that requires specialized parsing.\n\n" +
+                            "To view this document, please tap 'Open in App' above and choose:\n" +
+                            "• Microsoft Office (Word, Excel, PowerPoint)\n" +
+                            "• Google Docs/Sheets/Slides\n" +
+                            "• WPS Office\n" +
+                            "• Other compatible apps"
                 }
 
                 else -> {
@@ -1058,22 +1082,22 @@ private fun extractTextFromWordDocument(inputStream: InputStream): String {
         val extractedText = textBuilder.toString().trim()
         if (extractedText.isEmpty()) {
             "📝 Word Document\n\n" +
-            "This document appears to be empty or contains only formatting/images.\n\n" +
-            "For the best viewing experience with full formatting, images, and features, " +
-            "tap 'Open in App' above."
+                    "This document appears to be empty or contains only formatting/images.\n\n" +
+                    "For the best viewing experience with full formatting, images, and features, " +
+                    "tap 'Open in App' above."
         } else {
             "📝 ${extractedText.length} characters extracted\n\n" +
-            "──────────���─────────────────\n\n" +
-            extractedText + "\n\n" +
-            "───────────────���────────────\n\n" +
-            "Note: This is plain text extraction. For full formatting, images, and features, " +
-            "tap 'Open in App' above."
+                    "──────────���─────────────────\n\n" +
+                    extractedText + "\n\n" +
+                    "───────────────���────────────\n\n" +
+                    "Note: This is plain text extraction. For full formatting, images, and features, " +
+                    "tap 'Open in App' above."
         }
     } catch (e: Exception) {
         Log.e("extractTextFromWord", "Error: ${e.message}", e)
         "📝 Microsoft Word Document\n\n" +
-        "Could not extract text: ${e.message}\n\n" +
-        "To view this document with full formatting, tap 'Open in App' above."
+                "Could not extract text: ${e.message}\n\n" +
+                "To view this document with full formatting, tap 'Open in App' above."
     }
 }
 
@@ -1134,22 +1158,22 @@ private fun extractTextFromExcelDocument(inputStream: InputStream): String {
         val extractedText = textBuilder.toString().trim()
         if (extractedText.isEmpty()) {
             "📊 Excel Spreadsheet\n\n" +
-            "This spreadsheet appears to be empty or uses complex formatting.\n\n" +
-            "For the best viewing experience with formulas and formatting, " +
-            "tap 'Open in App' above."
+                    "This spreadsheet appears to be empty or uses complex formatting.\n\n" +
+                    "For the best viewing experience with formulas and formatting, " +
+                    "tap 'Open in App' above."
         } else {
             "📊 Excel Spreadsheet Preview\n\n" +
-            "────────────────────────────\n\n" +
-            extractedText + "\n" +
-            "────────────────────────────\n\n" +
-            "Note: This shows cell values only. For formulas, charts, and full formatting, " +
-            "tap 'Open in App' above."
+                    "────────────────────────────\n\n" +
+                    extractedText + "\n" +
+                    "────────────────────────────\n\n" +
+                    "Note: This shows cell values only. For formulas, charts, and full formatting, " +
+                    "tap 'Open in App' above."
         }
     } catch (e: Exception) {
         Log.e("extractTextFromExcel", "Error: ${e.message}", e)
         "📊 Microsoft Excel Spreadsheet\n\n" +
-        "Could not extract data: ${e.message}\n\n" +
-        "To view this spreadsheet with formulas and formatting, tap 'Open in App' above."
+                "Could not extract data: ${e.message}\n\n" +
+                "To view this spreadsheet with formulas and formatting, tap 'Open in App' above."
     }
 }
 
@@ -1197,22 +1221,22 @@ private fun extractTextFromPowerPointDocument(inputStream: InputStream): String 
         val extractedText = textBuilder.toString().trim()
         if (extractedText.isEmpty()) {
             "📊 PowerPoint Presentation\n\n" +
-            "This presentation appears to be empty or contains only images/graphics.\n\n" +
-            "For the best viewing experience with animations and formatting, " +
-            "tap 'Open in App' above."
+                    "This presentation appears to be empty or contains only images/graphics.\n\n" +
+                    "For the best viewing experience with animations and formatting, " +
+                    "tap 'Open in App' above."
         } else {
             "📊 PowerPoint Presentation\n" +
-            "$slideCount slides found\n\n" +
-            "────────────────────────────\n\n" +
-            extractedText + "\n" +
-            "────────────────────────────\n\n" +
-            "Note: This shows text content only. For animations, images, and full formatting, " +
-            "tap 'Open in App' above."
+                    "$slideCount slides found\n\n" +
+                    "────────────────────────────\n\n" +
+                    extractedText + "\n" +
+                    "────────────────────────────\n\n" +
+                    "Note: This shows text content only. For animations, images, and full formatting, " +
+                    "tap 'Open in App' above."
         }
     } catch (e: Exception) {
         Log.e("extractTextFromPPT", "Error: ${e.message}", e)
         "📊 Microsoft PowerPoint Presentation\n\n" +
-        "Could not extract content: ${e.message}\n\n" +
-        "To view this presentation with animations and formatting, tap 'Open in App' above."
+                "Could not extract content: ${e.message}\n\n" +
+                "To view this presentation with animations and formatting, tap 'Open in App' above."
     }
 }

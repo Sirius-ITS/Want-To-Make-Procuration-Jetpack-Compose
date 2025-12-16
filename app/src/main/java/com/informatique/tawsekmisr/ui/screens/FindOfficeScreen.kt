@@ -5,38 +5,47 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.Apartment
-import androidx.compose.material.icons.filled.CloudOff
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Map
-import androidx.compose.material.icons.filled.MyLocation
-import androidx.compose.material.icons.filled.Navigation
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Tag
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.outlined.ArrowBackIosNew
+import androidx.compose.material.icons.rounded.AccountBalance
+import androidx.compose.material.icons.rounded.Apartment
+import androidx.compose.material.icons.rounded.CloudOff
+import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.LocalOffer
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.MyLocation
+import androidx.compose.material.icons.rounded.Navigation
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Search
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material.icons.rounded.Tag
+import androidx.compose.material.icons.rounded.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -83,9 +92,9 @@ import com.informatique.tawsekmisr.ui.viewmodels.FindOfficeViewModel
  */
 private fun getOfficeIcon(office: Office): androidx.compose.ui.graphics.vector.ImageVector {
     return if (office.isPremium) {
-        Icons.Default.Star // Premium offices
+        Icons.Rounded.Star // Premium offices
     } else {
-        Icons.Default.Apartment // All other offices
+        Icons.Rounded.Apartment // All other offices
     }
 }
 
@@ -159,7 +168,7 @@ fun FindOfficeScreen(
             onDismissRequest = { showLocationPermissionDialog = false },
             icon = {
                 Icon(
-                    imageVector = Icons.Default.LocationOn,
+                    imageVector = Icons.Rounded.LocationOn,
                     contentDescription = null,
                     tint = extraColors.iconDarkBlue
                 )
@@ -229,7 +238,8 @@ fun FindOfficeScreen(
                 Text(
                     text = "${localizedApp(R.string.offices_available)} ${filteredOffices.size}",
                     fontSize = 14.sp,
-                    color = extraColors.textGray
+                    color = extraColors.textDarkGray,
+                    fontWeight = FontWeight.Light
                 )
             }
             Row(
@@ -259,7 +269,7 @@ fun FindOfficeScreen(
                             )
                         } else {
                             Icon(
-                                imageVector = Icons.Default.MyLocation,
+                                imageVector = Icons.Rounded.MyLocation,
                                 contentDescription = "Get Location",
                                 tint = extraColors.iconDarkBlue,
                                 modifier = Modifier.padding(12.dp)
@@ -267,7 +277,7 @@ fun FindOfficeScreen(
                         }
                     }
                 }
-
+//
                 Surface(
                     modifier = Modifier
                         .size(48.dp)
@@ -276,7 +286,7 @@ fun FindOfficeScreen(
                     color = if (isMapView) extraColors.cardBackground else extraColors.cardBackground
                 ) {
                     Icon(
-                        imageVector = if (isMapView) Icons.Default.List else Icons.Default.Map,
+                        imageVector = if (isMapView) Icons.Rounded.List else Icons.Rounded.Map,
                         contentDescription = if (isMapView) "List View" else "Map View",
                         tint = if (isMapView) extraColors.iconDarkBlue else extraColors.iconDarkBlue,
                         modifier = Modifier.padding(12.dp)
@@ -299,7 +309,7 @@ fun FindOfficeScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Warning,
+                        imageVector = Icons.Rounded.Warning,
                         contentDescription = null,
                         tint = extraColors.gold,
                         modifier = Modifier.size(20.dp)
@@ -340,7 +350,7 @@ fun FindOfficeScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Default.CloudOff,
+                            imageVector = Icons.Rounded.CloudOff,
                             contentDescription = null,
                             tint = extraColors.iconDarkBlue,
                             modifier = Modifier.size(60.dp)
@@ -402,7 +412,7 @@ fun FindOfficeScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Refresh,
+                                    imageVector = Icons.Rounded.Refresh,
                                     contentDescription = null,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -432,50 +442,52 @@ fun FindOfficeScreen(
                     onOptionSelected = { government ->
                         viewModel.setSelectedGovernment(government)
                     },
-                    leadingIcon = Icons.Default.AccountBalance,
+                    leadingIcon = Icons.Rounded.AccountBalance,
                     placeholder = allGovernmentsText,
                     mandatory = false,
                     enabled = true
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-            }        // Search Bar
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            color = extraColors.cardBackground
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth().padding(horizontal = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    contentDescription = null,
-                    tint = extraColors.textGray
-                )
-                TextField(
-                    value = searchQuery,
-                    onValueChange = { viewModel.setSearchQuery(it) },
-                    placeholder = {
-                        Text(
-                            text = localizedApp(R.string.search_offices),
-                            color = extraColors.textGray
-                        )
-                    },
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.Transparent,
-                        unfocusedContainerColor = Color.Transparent,
-                        disabledContainerColor = Color.Transparent,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    modifier = Modifier.fillMaxWidth()
-                )
             }
-        }
+            // Search Bar
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                color = extraColors.cardBackground
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth().padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.Search,
+                        contentDescription = null,
+                        tint = extraColors.textDarkGray
+                    )
+                    TextField(
+                        value = searchQuery,
+                        onValueChange = { viewModel.setSearchQuery(it) },
+                        placeholder = {
+                            Text(
+                                text = localizedApp(R.string.search_offices),
+                                color = extraColors.textDarkGray,
+                                fontWeight = FontWeight.ExtraLight
+                            )
+                        },
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
+                            disabledContainerColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        ),
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -486,21 +498,21 @@ fun FindOfficeScreen(
             ) {
                 FilterChip(
                     label = localizedApp(R.string.filter_nearest),
-                    icon = Icons.Default.Navigation,
+                    icon = Icons.Rounded.Navigation,
                     isSelected = selectedFilter == "nearest",
                     onClick = { viewModel.setFilter("nearest") },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     label = localizedApp(R.string.filter_all),
-                    icon = Icons.Default.Apartment,
+                    icon = Icons.Rounded.Apartment,
                     isSelected = selectedFilter == "all",
                     onClick = { viewModel.setFilter("all") },
                     modifier = Modifier.weight(1f)
                 )
                 FilterChip(
                     label = localizedApp(R.string.filter_premium),
-                    icon = Icons.Default.Star,
+                    icon = Icons.Rounded.Star,
                     isSelected = selectedFilter == "premium",
                     onClick = { viewModel.setFilter("premium") },
                     modifier = Modifier.weight(1f)
@@ -550,7 +562,7 @@ fun FindOfficeScreen(
             showOrgTypeWarningDialog = false
             selectedOfficeForNavigation = null
         },
-        icon = Icons.Default.Info,
+        icon = Icons.Rounded.Info,
         iconTint = extraColors.gold,
         iconBackgroundTint = extraColors.gold.copy(alpha = 0.2f),
         title = "تنبيه",
@@ -636,7 +648,7 @@ private fun OfficeCard(
             // Icon Box
             Box(
                 modifier = Modifier
-                    .size(80.dp)
+                    .size(70.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(
                         if (office.isPremium) extraColors.gold.copy(alpha = 0.2f)
@@ -647,8 +659,8 @@ private fun OfficeCard(
                 Icon(
                     imageVector = officeIcon,
                     contentDescription = null,
-                    tint = if (office.isPremium) extraColors.gold else extraColors.iconLightBlue,
-                    modifier = Modifier.size(40.dp)
+                    tint = if (office.isPremium) extraColors.gold else extraColors.officeIcon,
+                    modifier = Modifier.size(45.dp)
                 )
 
 //                if (office.isVerified) {
@@ -680,8 +692,8 @@ private fun OfficeCard(
                 // Office Name (removed Premium badge)
                 Text(
                     text = office.name,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.Medium,
                     color = extraColors.textBlue,
                     maxLines = 2,
                     overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
@@ -692,16 +704,17 @@ private fun OfficeCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Tag,
+                        imageVector = Icons.Rounded.LocalOffer,
                         contentDescription = null,
-                        tint = if (office.isPremium) extraColors.gold else extraColors.textGray,
-                        modifier = Modifier.size(14.dp)
+                        tint = if (office.isPremium) extraColors.gold else extraColors.officeIcon,
+                        modifier = Modifier.size(13.dp)
                     )
                     Text(
                         text = office.type,
-                        fontSize = 12.sp,
-                        color = if (office.isPremium) extraColors.gold else extraColors.textBlue,
+                        fontSize = 13.sp,
+                        color = if (office.isPremium) extraColors.gold else extraColors.officeIcon,
                         maxLines = 1,
+                        fontWeight = FontWeight.Light,
                         overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                 }
@@ -711,16 +724,17 @@ private fun OfficeCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Info,
+                        imageVector = Icons.Rounded.Info,
                         contentDescription = null,
                         tint =  extraColors.textDarkGray,
-                        modifier = Modifier.size(14.dp)
+                        modifier = Modifier.size(13.dp)
                     )
                     Text(
                         text = office.address,
-                        fontSize = 12.sp,
+                        fontSize = 13.sp,
                         color = extraColors.textDarkGray,
                         maxLines = 1,
+                        fontWeight = FontWeight.Light,
                         overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                 }
@@ -728,22 +742,28 @@ private fun OfficeCard(
 
             // Distance and Arrow
             Column(
-                horizontalAlignment = Alignment.End,
-                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
                 modifier = Modifier.height(80.dp)
             ) {
                 // Format distance to 1 decimal place and show on single line with localized km unit
                 Text(
-                    text = String.format("%.1f %s", office.distance, localizedApp(R.string.km_unit)),
-                    fontSize = 14.sp,
+                    text = String.format("%.1f%s", office.distance ,""),
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = extraColors.textBlue
+                    color = extraColors.iconDarkBlue
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = localizedApp(R.string.km_unit),
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Normal,
+                    color = extraColors.textDarkGray
+                )
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    imageVector = Icons.Outlined.ArrowBackIosNew,
                     contentDescription = null,
-                    tint = extraColors.textGray,
+                    tint = extraColors.textDarkGray.copy(alpha = 0.5f),
                     modifier = Modifier.size(20.dp)
                 )
             }
@@ -891,7 +911,7 @@ private fun OfficeMapView(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Icon(
-                                imageVector = Icons.Default.LocationOn,
+                                imageVector = Icons.Rounded.LocationOn,
                                 contentDescription = null,
                                 tint = extraColors.iconDarkBlue.copy(alpha = 0.15f),
                                 modifier = Modifier.size(16.dp)
@@ -910,7 +930,7 @@ private fun OfficeMapView(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Star,
+                                    imageVector = Icons.Rounded.Star,
                                     contentDescription = null,
                                     tint = extraColors.gold,
                                     modifier = Modifier.size(16.dp)
@@ -926,7 +946,7 @@ private fun OfficeMapView(
 
                     // Arrow
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                         contentDescription = null,
                         tint = extraColors.textGray,
                         modifier = Modifier.size(24.dp)

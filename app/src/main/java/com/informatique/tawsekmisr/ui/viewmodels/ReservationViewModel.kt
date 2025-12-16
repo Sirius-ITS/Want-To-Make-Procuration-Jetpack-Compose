@@ -240,7 +240,7 @@ class ReservationViewModel @Inject constructor(
      */
     fun dateStringToMillis(dateString: String): Long? {
         return try {
-            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
             dateFormat.parse(dateString)?.time
         } catch (e: Exception) {
             null
@@ -251,7 +251,7 @@ class ReservationViewModel @Inject constructor(
      * Convert milliseconds to date string (dd/MM/yyyy)
      */
     fun millisToDateString(millis: Long): String {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         return dateFormat.format(Date(millis))
     }
 
@@ -263,8 +263,8 @@ class ReservationViewModel @Inject constructor(
         println("🔍 Getting time slots for date: $date")
 
         // Convert the selected date (dd/MM/yyyy) to API format (yyyy-MM-dd) for comparison
-        val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val apiDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val displayDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
 
         val dateToMatch = try {
             val parsedDate = displayDateFormat.parse(date)

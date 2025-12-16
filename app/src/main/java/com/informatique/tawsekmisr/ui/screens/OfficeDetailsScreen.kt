@@ -2,16 +2,40 @@ package com.informatique.tawsekmisr.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Apartment
+import androidx.compose.material.icons.rounded.CalendarMonth
+import androidx.compose.material.icons.rounded.Castle
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.LocationOn
+import androidx.compose.material.icons.rounded.Map
+import androidx.compose.material.icons.rounded.Schedule
+import androidx.compose.material.icons.rounded.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,9 +62,9 @@ import androidx.core.net.toUri
  */
 private fun getOfficeIcon(office: Office): androidx.compose.ui.graphics.vector.ImageVector {
     return if (office.isPremium) {
-        Icons.Default.Star // Premium offices
+        Icons.Rounded.Star // Premium offices
     } else {
-        Icons.Default.Apartment // All other offices
+        Icons.Rounded.Apartment // All other offices
     }
 }
 
@@ -121,7 +145,7 @@ fun OfficeDetailsScreen(
                     color = extraColors.cardBackground
                 ) {
                     Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Back",
                         tint = extraColors.textBlue,
                         modifier = Modifier.padding(12.dp)
@@ -157,7 +181,7 @@ fun OfficeDetailsScreen(
                                 color = extraColors.cardBackground
                             ) {
                                 Icon(
-                                    imageVector = Icons.Default.Check,
+                                    imageVector = Icons.Rounded.Check,
                                     contentDescription = "Verified",
                                     tint = extraColors.green,
                                     modifier = Modifier.padding(4.dp)
@@ -209,23 +233,23 @@ fun OfficeDetailsScreen(
                             ) {
                                 // Government chip
                                 Surface(
-                                    shape = RoundedCornerShape(8.dp),
+                                    shape = RoundedCornerShape(20.dp),
                                     color = extraColors.iconDarkBlue.copy(alpha = 0.15f)
                                 ) {
                                     Row(
-                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Icon(
-                                            imageVector = Icons.Default.Castle,
+                                            imageVector = Icons.Rounded.Castle,
                                             contentDescription = null,
                                             tint = extraColors.iconDarkBlue,
                                             modifier = Modifier.size(16.dp)
                                         )
                                         Text(
                                             text = office.city,
-                                            fontSize = 12.sp,
+                                            fontSize = 14.sp,
                                             color = extraColors.textBlue,
                                             fontWeight = FontWeight.Medium
                                         )
@@ -234,14 +258,14 @@ fun OfficeDetailsScreen(
 
                                 // Office Type chip
                                 Surface(
-                                    shape = RoundedCornerShape(8.dp),
+                                    shape = RoundedCornerShape(20.dp),
                                     color = if (office.isPremium)
                                         extraColors.gold.copy(alpha = 0.15f)
                                     else
                                         extraColors.iconDarkBlue.copy(alpha = 0.15f)
                                 ) {
                                     Row(
-                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 6.dp),
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
                                         horizontalArrangement = Arrangement.spacedBy(6.dp),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
@@ -253,7 +277,7 @@ fun OfficeDetailsScreen(
                                         )
                                         Text(
                                             text = office.type,
-                                            fontSize = 12.sp,
+                                            fontSize = 14.sp,
                                             color = if (office.isPremium) extraColors.gold else extraColors.textBlue,
                                             fontWeight = FontWeight.Medium
                                         )
@@ -268,19 +292,21 @@ fun OfficeDetailsScreen(
                             color = extraColors.iconDarkBlue.copy(alpha = 0.1f)
                         ) {
                             Column(
-                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                                modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
                                     text = String.format("%.1f", distance),
-                                    fontSize = 20.sp,
-                                    color = extraColors.textBlue
+                                    fontSize = 26.sp,
+                                    color = extraColors.textBlue,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Text(
-                                    text = localizedApp(R.string.km_unit),
-                                    fontSize = 11.sp,
-                                    color = extraColors.textGray
+                                    text = localizedApp(R.string.km_away),
+                                    fontSize = 16.sp,
+                                    color = extraColors.textGray,
+                                    fontWeight = FontWeight.Normal
                                 )
                             }
                         }
@@ -294,7 +320,7 @@ fun OfficeDetailsScreen(
 
                     // Address Section
                     OfficeDetailRow(
-                        icon = Icons.Default.LocationOn,
+                        icon = Icons.Rounded.LocationOn,
                         iconColor = extraColors.iconDarkBlue,
                         label = localizedApp(R.string.office_address_label),
                         value = office.address,
@@ -308,7 +334,7 @@ fun OfficeDetailsScreen(
 
                     // Working Hours Section
                     OfficeDetailRow(
-                        icon = Icons.Default.Schedule,
+                        icon = Icons.Rounded.Schedule,
                         iconColor = extraColors.iconDarkBlue,
                         label = localizedApp(R.string.office_working_hours_label),
                         value = office.workingHours,
@@ -321,7 +347,7 @@ fun OfficeDetailsScreen(
                     Spacer(modifier = Modifier.height(32.dp))
 
                     OfficeDetailRow(
-                        icon = Icons.Default.Map,
+                        icon = Icons.Rounded.Map,
                         iconColor = extraColors.iconDarkBlue,
                         label = localizedApp(R.string.office_action_directions),
                         value = localizedApp(R.string.office_action_directions),
@@ -352,7 +378,7 @@ fun OfficeDetailsScreen(
                             )
                         ) {
                             Icon(
-                                imageVector = Icons.Default.CalendarMonth,
+                                imageVector = Icons.Rounded.CalendarMonth,
                                 contentDescription = null,
                                 tint = Color.White,
                                 modifier = Modifier.size(24.dp)
@@ -410,7 +436,7 @@ private fun OfficeDetailRow(
             Text(
                 text = label,
                 fontSize = 14.sp,
-                color = extraColors.textGray,
+                color = extraColors.textDarkGray,
                 fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.height(4.dp))

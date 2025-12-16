@@ -9,10 +9,13 @@ import androidx.compose.ui.unit.sp
 import com.informatique.tawsekmisr.R
 
 val AppFontFamily = FontFamily(
-    Font(R.font.ge_ss_two_regular, FontWeight.Normal),
-    Font(R.font.ge_ss_two_medium, FontWeight.Medium),
-    Font(R.font.ge_ss_two_bold, FontWeight.Bold)
-)
+    Font(R.font.cairo_regular, FontWeight.Normal),
+    Font(R.font.cairo_medium, FontWeight.Medium),
+    Font(R.font.cairo_bold, FontWeight.Bold),
+    Font(R.font.cairo_semibold, FontWeight.SemiBold),
+    Font(R.font.cairo_light, FontWeight.Light),
+    Font(R.font.cairo_extralight, FontWeight.ExtraLight)
+    )
 
 val fontTypography = Typography(
     displayLarge = TextStyle(

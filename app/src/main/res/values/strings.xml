@@ -131,6 +131,7 @@
     <string name="theme_dark">Dark Mode</string>
     <string name="about_app">About App</string>
     <string name="version">Version</string>
+    <string name="km_away">Km away</string>
 
     <!-- Splash Screen -->
     <string name="powered_by">Powered by Informatique</string>

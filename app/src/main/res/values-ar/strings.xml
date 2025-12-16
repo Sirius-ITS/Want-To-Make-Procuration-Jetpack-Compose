@@ -12,7 +12,7 @@
 
     <!-- Home Screen -->
     <string name="hello_label">مرحباً بك</string>
-    <string name="how_can_help">كيف يمكننا مساعدتك اليوم؟</string>
+    <string name="how_can_help">كيف يمكننا مساعدتك ؟</string>
     <string name="available_services_title">الخدمات المتاحة</string>
 
     <!-- Feature Box -->
@@ -25,14 +25,14 @@
 
     <!-- Services -->
     <string name="service_branch_load">كثافة الفروع</string>
-    <string name="service_branch_load_desc">أنجز معاملاتك في الفرع اليوم</string>
+    <string name="service_branch_load_desc">اجراء معاملتك اليوم</string>
     <string name="service_book_appointment">حجز موعد</string>
-    <string name="service_book_appointment_desc">أنجز معاملاتك في الأيام القادمة</string>
+    <string name="service_book_appointment_desc">اتمام معاملت في ايام تالية</string>
     <string name="service_forms">النماذج</string>
     <string name="service_forms_desc">تصفح وتحميل النماذج</string>
     <string name="service_enotary">التوثيق الإلكتروني</string>
-    <string name="service_enotary_desc">بوابة التوثيق الرقمي المصرية</string>
-    <string name="service_booking_inquiry">الاستعلام عن الحجز</string>
+    <string name="service_enotary_desc">بوابة مصر الرقمية</string>
+    <string name="service_booking_inquiry">استعلام عن الحجز</string>
     <string name="service_booking_inquiry_desc">تتبع حجوزاتك</string>
     <string name="service_other_services">خدمات أخرى</string>
     <string name="service_other_services_desc">المزيد من الخدمات</string>
@@ -57,11 +57,11 @@
     <!-- Find Office Screen -->
     <string name="find_office_title">مكاتب التوثيق</string>
     <string name="offices_available">عدد المكاتب المتاحة</string>
-    <string name="all_governments">كل المحافظات</string>
-    <string name="search_offices">ابحث عن المكاتب…</string>
+    <string name="all_governments">جميع المحافظات</string>
+    <string name="search_offices">بحث المكاتب…</string>
     <string name="filter_all">الكل</string>
     <string name="filter_nearest">الأقرب</string>
-    <string name="filter_premium">المميزة</string>
+    <string name="filter_premium">مميز</string>
     <string name="service_unavailable_message">يرجى التحقق من اتصالك بالإنترنت والمحاولة لاحقاً.</string>
 
     <!-- Location Permission -->
@@ -69,7 +69,8 @@
     <string name="location_permission_message">للعثور على أقرب المكاتب إليك، نحتاج إلى الوصول إلى موقعك. يساعدنا هذا على عرض المكاتب مرتبة حسب المسافة.</string>
     <string name="allow">السماح</string>
     <string name="deny">ليس الآن</string>
-    <string name="km_unit">كم</string>
+    <string name="km_unit">Km</string>
+    <string name="km_away">Km away</string>
 
     <!-- Office Details Screen -->
     <string name="office_address_label">العنوان</string>
@@ -126,10 +127,10 @@
     <string name="settings_title">الإعدادات</string>
     <string name="done">تم</string>
     <string name="settings_language_section">اللغة</string>
-    <string name="settings_theme_section">مظهر التطبيق</string>
-    <string name="theme_light">الوضع الفاتح</string>
-    <string name="theme_dark">الوضع الداكن</string>
-    <string name="about_app">حول التطبيق</string>
+    <string name="settings_theme_section">المظهر</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="about_app">عن التطبيق</string>
     <string name="version">الإصدار</string>
 
     <!-- Splash Screen -->

@@ -2,20 +2,36 @@ package com.informatique.tawsekmisr.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ContentPasteSearch
-import androidx.compose.material.icons.filled.Description
-import androidx.compose.material.icons.filled.GridView
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material3.*
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.ContentPasteSearch
+import androidx.compose.material.icons.rounded.Description
+import androidx.compose.material.icons.rounded.GridView
+import androidx.compose.material.icons.rounded.Translate
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +63,7 @@ fun OtherServicesScreen(navController: NavController) {
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = "Back",
                             tint = extraColors.textBlue
                         )
@@ -76,7 +92,7 @@ fun OtherServicesScreen(navController: NavController) {
                 color = extraColors.green.copy(alpha = 0.15f)
             ) {
                 Icon(
-                    imageVector =  Icons.Default.GridView,
+                    imageVector =  Icons.Rounded.GridView,
                     contentDescription = null,
                     tint = extraColors.green,
                     modifier = Modifier.padding(32.dp)
@@ -114,18 +130,18 @@ fun OtherServicesScreen(navController: NavController) {
                     title = translationTitle,
                     subtitle = subtitle,
                     iconColor = extraColors.accent,
-                    icon = Icons.Default.Translate
+                    icon = Icons.Rounded.Translate
                 ),
                 OtherServiceItem(
                     title = realEstateTitle,
                     subtitle = subtitle,
                     iconColor = extraColors.green,
-                    icon = Icons.Default.ContentPasteSearch
+                    icon = Icons.Rounded.ContentPasteSearch
                 ),
                 OtherServiceItem(
                     title = contractCopyTitle,
                     subtitle = subtitle,
-                    icon = Icons.Default.Description,
+                    icon = Icons.Rounded.Description,
                     iconColor = extraColors.gold
                 )
             )
@@ -136,7 +152,7 @@ fun OtherServicesScreen(navController: NavController) {
                     subtitle = service.subtitle,
                     iconColor = service.iconColor,
                     icon = service.icon,
-                            onClick = {
+                    onClick = {
                         val encodedUrl = URLEncoder.encode("https://rern.gov.eg/", StandardCharsets.UTF_8.toString())
                         val encodedTitle = URLEncoder.encode(service.title, StandardCharsets.UTF_8.toString())
                         navController.navigate("webview/$encodedUrl/$encodedTitle")
