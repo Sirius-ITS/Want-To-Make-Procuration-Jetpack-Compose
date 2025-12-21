@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.rounded.ContentPasteSearch
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.GridView
@@ -31,6 +35,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -49,116 +54,113 @@ import java.nio.charset.StandardCharsets
 fun OtherServicesScreen(navController: NavController) {
     val extraColors = LocalExtraColors.current
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = localizedApp(R.string.other_services_title),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = extraColors.textBlue
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = "Back",
-                            tint = extraColors.textBlue
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(extraColors.backgroundGradient)
                 .padding(paddingValues)
-                .padding(horizontal = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(32.dp))
+                .padding(horizontal = 20.dp),) {
 
-            // Hero Icon
+            Spacer(modifier = Modifier.height(16.dp))
+
             Surface(
-                modifier = Modifier.size(120.dp),
-                shape = RoundedCornerShape(32.dp),
-                color = extraColors.green.copy(alpha = 0.15f)
+                modifier = Modifier
+                    .size(48.dp)
+                    .clip(CircleShape)
+                    .clickable { navController.navigateUp() },
+                color = extraColors.iconLightBackground
             ) {
                 Icon(
-                    imageVector =  Icons.Rounded.GridView,
-                    contentDescription = null,
-                    tint = extraColors.green,
-                    modifier = Modifier.padding(32.dp)
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = "Back",
+                    tint = extraColors.white,
+                    modifier = Modifier.padding(12.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(32.dp))
 
-            Text(
-                text = localizedApp(R.string.other_services_title),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = extraColors.textBlue
-            )
+                // Hero Icon
+                Surface(
+                    modifier = Modifier.size(100.dp),
+                    shape = RoundedCornerShape(50.dp),
+                    color = extraColors.textBlue.copy(alpha = 0.15f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.GridView,
+                        contentDescription = null,
+                        tint = extraColors.textBlue,
+                        modifier = Modifier.padding(14.dp)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = localizedApp(R.string.other_services_subtitle),
-                fontSize = 14.sp,
-                color = extraColors.textGray,
-                textAlign = TextAlign.Center
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Service Items - Get localized titles OUTSIDE the onClick
-            val translationTitle = localizedApp(R.string.other_service_translation)
-            val realEstateTitle = localizedApp(R.string.other_service_real_estate)
-            val contractCopyTitle = localizedApp(R.string.other_service_contract_copy)
-            val subtitle = localizedApp(R.string.other_service_access_gov)
-
-            val services = listOf(
-                OtherServiceItem(
-                    title = translationTitle,
-                    subtitle = subtitle,
-                    iconColor = extraColors.accent,
-                    icon = Icons.Rounded.Translate
-                ),
-                OtherServiceItem(
-                    title = realEstateTitle,
-                    subtitle = subtitle,
-                    iconColor = extraColors.green,
-                    icon = Icons.Rounded.ContentPasteSearch
-                ),
-                OtherServiceItem(
-                    title = contractCopyTitle,
-                    subtitle = subtitle,
-                    icon = Icons.Rounded.Description,
-                    iconColor = extraColors.gold
+                Text(
+                    text = localizedApp(R.string.other_services_title),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = extraColors.textBlue
                 )
-            )
 
-            services.forEach { service ->
-                OtherServiceCard(
-                    title = service.title,
-                    subtitle = service.subtitle,
-                    iconColor = service.iconColor,
-                    icon = service.icon,
-                    onClick = {
-                        val encodedUrl = URLEncoder.encode("https://rern.gov.eg/", StandardCharsets.UTF_8.toString())
-                        val encodedTitle = URLEncoder.encode(service.title, StandardCharsets.UTF_8.toString())
-                        navController.navigate("webview/$encodedUrl/$encodedTitle")
-                    }
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Text(
+                    text = localizedApp(R.string.other_services_subtitle),
+                    fontSize = 16.sp,
+                    color = extraColors.textDarkGray,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center
                 )
-                Spacer(modifier = Modifier.height(16.dp))
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                // Service Items - Get localized titles OUTSIDE the onClick
+                val translationTitle = localizedApp(R.string.other_service_translation)
+                val realEstateTitle = localizedApp(R.string.other_service_real_estate)
+                val contractCopyTitle = localizedApp(R.string.other_service_contract_copy)
+                val subtitle = localizedApp(R.string.other_service_access_gov)
+
+                val services = listOf(
+                    OtherServiceItem(
+                        title = translationTitle,
+                        subtitle = subtitle,
+                        iconColor = extraColors.textBlue,
+                        icon = Icons.Rounded.Translate
+                    ),
+                    OtherServiceItem(
+                        title = realEstateTitle,
+                        subtitle = subtitle,
+                        iconColor = extraColors.textBlue,
+                        icon = Icons.Rounded.ContentPasteSearch
+                    ),
+                    OtherServiceItem(
+                        title = contractCopyTitle,
+                        subtitle = subtitle,
+                        icon = Icons.Rounded.Description,
+                        iconColor = extraColors.textBlue
+                    )
+                )
+
+                services.forEach { service ->
+                    OtherServiceCard(
+                        title = service.title,
+                        subtitle = service.subtitle,
+                        iconColor = service.iconColor,
+                        icon = service.icon,
+                        onClick = {
+                            val encodedUrl = URLEncoder.encode("https://rern.gov.eg/", StandardCharsets.UTF_8.toString())
+                            val encodedTitle = URLEncoder.encode(service.title, StandardCharsets.UTF_8.toString())
+                            navController.navigate("webview/$encodedUrl/$encodedTitle")
+                        }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
             }
         }
     }
@@ -198,7 +200,7 @@ private fun OtherServiceCard(
         ) {
             Surface(
                 modifier = Modifier.size(64.dp),
-                shape = RoundedCornerShape(16.dp),
+                shape = RoundedCornerShape(64.dp),
                 color = iconColor.copy(alpha = 0.15f)
             ) {
                 Icon(
@@ -222,9 +224,16 @@ private fun OtherServiceCard(
                 Text(
                     text = subtitle,
                     fontSize = 13.sp,
-                    color = extraColors.textGray
+                    color = extraColors.textDarkGray
                 )
             }
+
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.ArrowForwardIos,
+                contentDescription = null,
+                tint = iconColor,
+                modifier = Modifier.size(20.dp)
+            )
         }
     }
 }

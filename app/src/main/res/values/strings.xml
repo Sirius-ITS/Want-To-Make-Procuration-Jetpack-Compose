@@ -78,6 +78,7 @@
     <string name="office_action_call">Call</string>
     <string name="office_action_message">Message</string>
     <string name="office_action_directions">Directions</string>
+    <string name="office_action_directions_value">You can find the directions here</string>
     <string name="book_appointment_button">Book appointment</string>
 
     <!-- Office Reservation -->
@@ -89,18 +90,19 @@
     <string name="reservation_date">Appointment Date</string>
     <string name="reservation_time">Appointment Time</string>
     <string name="reservation_confirmation">I confirm that all the information provided is accurate and complete</string>
-    <string name="submit_reservation">Confirm Reservation</string>
+    <string name="submit_reservation">Submit</string>
     <string name="important_notes">Important notes</string>
     <string name="note_1">The national ID number must be 14 digits</string>
     <string name="note_2">Reservations cannot be modified after submission</string>
     <string name="national_id_valid">The national ID number is correct</string>
 
     <!-- Reservation Ticket -->
-    <string name="reservation_success_title">Reservation Confirmed!</string>
+    <string name="reservation_success_title">Reservation Confirmed Successfully!</string>
     <string name="reservation_success_subtitle">Your appointment has been successfully booked. Please arrive on time.</string>
     <string name="ticket_details_title">Ticket Details</string>
-    <string name="office_name_label">Office Name</string>
-    <string name="attendance_number_label">Attendance Number</string>
+    <string name="office_name_label">Name of the documentation branch</string>
+    <string name="attendance_number_label">Number of attendees</string>
+    <string name="reservation_date_label">Reservation date</string>
     <string name="important_note_title">Important Note</string>
     <string name="reservation_note_message">• In case of not attending at the beginning of the scheduled appointment, the reservation will be cancelled\n• The person making the reservation must be one of the parties to the transaction, otherwise the reservation will be cancelled\n• Please note that you can inquire about your reservations now\n• Please note that repeated reservations without attendance or cancellation will result in you being blocked from booking for a period</string>
 
@@ -115,8 +117,17 @@
     <string name="error_confirmation_required">Please confirm that all data is correct</string>
 
     <!-- Booking Inquiry -->
+    <string name="quick_inquiry_title">Quick inquiry</string>
+    <string name="quick_inquiry_desc">Enter your national ID number to view all your bookings</string>
     <string name="no_reservations_found">No reservations found</string>
     <string name="no_reservations_for_id">No reservations for that national ID</string>
+    <string name="booking_inquiry_btn">Inquiry</string>
+    <plurals name="reservations_count">
+        <item quantity="zero">You have no bookings</item>
+        <item quantity="one">You have single booking</item>
+        <item quantity="many">You have %d bookings</item>
+        <item quantity="few">You have %d bookings</item>
+    </plurals>
 
     <!-- File Viewer -->
     <string name="file_viewer">File Viewer</string>
@@ -136,10 +147,22 @@
     <!-- Splash Screen -->
     <string name="powered_by">Powered by Informatique</string>
 
-    <string name="enter_national_id">أدخل الرقم القومي</string>
-    <string name="enter_category">ادخل التصنيف</string>
-    <string name="enter_type">اختر </string>
-    <string name="enter_date">ادخل يوم الحجز</string>
-    <string name="enter_time">اختر</string>
+    <string name="enter_national_id">Enter the national ID number</string>
+    <string name="national_id_checker">Checking...</string>
+    <string name="enter_category">Enter the category</string>
+    <string name="enter_type">Choose </string>
+    <string name="enter_date">Enter the booking date</string>
+    <string name="select_date_first">Choose the date first</string>
+    <string name="enter_time">Choose</string>
+    <string name="no_available_dates">No dates are available.</string>
+    <string name="sending_request">Sending...</string>
+
+    <!-- Login WebView -->
+    <string name="login">تسجيل الدخول</string>
+    <string name="ssl_error_title">تحذير أمني</string>
+    <string name="ssl_error_message">هناك مشكلة في شهادة الأمان الخاصة بهذا الموقع. هل تريد المتابعة؟</string>
+    <string name="ok">موافق</string>
+    <string name="close">إغلاق</string>
+    <string name="error">خطأ</string>
 
 </resources>

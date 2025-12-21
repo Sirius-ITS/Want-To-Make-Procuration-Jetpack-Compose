@@ -32,7 +32,7 @@
     <string name="service_forms_desc">تصفح وتحميل النماذج</string>
     <string name="service_enotary">التوثيق الإلكتروني</string>
     <string name="service_enotary_desc">بوابة مصر الرقمية</string>
-    <string name="service_booking_inquiry">استعلام عن الحجز</string>
+    <string name="service_booking_inquiry">إستعلام عن الحجز</string>
     <string name="service_booking_inquiry_desc">تتبع حجوزاتك</string>
     <string name="service_other_services">خدمات أخرى</string>
     <string name="service_other_services_desc">المزيد من الخدمات</string>
@@ -79,29 +79,31 @@
     <string name="office_action_call">اتصال</string>
     <string name="office_action_message">رسالة</string>
     <string name="office_action_directions">الاتجاهات</string>
+    <string name="office_action_directions_value">يمكنك معرفة الاتجاهات من هنا</string>
     <string name="book_appointment_button">حجز موعد</string>
 
     <!-- Office Reservation -->
     <string name="reservation_form_title">احجز موعدك</string>
     <string name="reservation_form_subtitle">يرجى ملء جميع المعلومات المطلوبة لإتمام الحجز</string>
     <string name="reservation_national_id">الرقم القومي</string>
-    <string name="reservation_classification">تصنيف الخدمة</string>
-    <string name="reservation_type">نوع الخدمة</string>
-    <string name="reservation_date">تاريخ الحجز</string>
-    <string name="reservation_time">وقت الحجز</string>
+    <string name="reservation_classification">التصنيف</string>
+    <string name="reservation_type">نوع المحرر</string>
+    <string name="reservation_date">يوم الحجز</string>
+    <string name="reservation_time">ميعاد الحجز</string>
     <string name="reservation_confirmation">أؤكد أن جميع المعلومات المقدمة صحيحة وكاملة</string>
-    <string name="submit_reservation">تأكيد الحجز</string>
+    <string name="submit_reservation">تقديم</string>
     <string name="important_notes">معلومات هامة</string>
     <string name="note_1">الرقم القومي يجب أن يكون 14 رقماً</string>
     <string name="note_2">لا يُمكن من تعديل الحجز بعد الإرسال</string>
     <string name="national_id_valid">الرقم القومي صحيح</string>
 
     <!-- Reservation Ticket -->
-    <string name="reservation_success_title">تم تأكيد الحجز!</string>
+    <string name="reservation_success_title">تم تأكيد الحجز بنجاح!</string>
     <string name="reservation_success_subtitle">تم حجز موعدك بنجاح. يرجى الحضور في الموعد المحدد.</string>
     <string name="ticket_details_title">تفاصيل التذكرة</string>
-    <string name="office_name_label">اسم المكتب</string>
-    <string name="attendance_number_label">رقم الحضور</string>
+    <string name="office_name_label">اسم فرع التوثيق</string>
+    <string name="attendance_number_label">عدد الحاضرين</string>
+    <string name="reservation_date_label">تاريخ الحجز</string>
     <string name="important_note_title">ملاحظة هامة</string>
     <string name="reservation_note_message">• فى حالة عدم الحضور في بداية الموعد المحدد يلغى الحجز\n• يشترط أن يكون الحاجز أحد أطراف المعاملة فيما عدا ذلك يلغى الحجز\n• يرجى العلم ان يمكنك الإستعلام عن حجوزاتك الآن\n• يجب العلم ان تكرار الحجز مع عدم الحضور او الإلغاء سوف يعرضك للحجب من الحجز لفتره</string>
 
@@ -116,8 +118,18 @@
     <string name="error_confirmation_required">يرجى التأكيد على صحة جميع البيانات</string>
 
     <!-- Booking Inquiry -->
+    <string name="quick_inquiry_title">إستعلام سريع</string>
+    <string name="quick_inquiry_desc">أدخل رقمك القومي لعرض جميع حجوزاتك</string>
     <string name="no_reservations_found">لا توجد حجوزات</string>
     <string name="no_reservations_for_id">لم يتم العثور على أي حجوزات لهذا الرقم القومي</string>
+    <string name="booking_inquiry_btn">إستعلام</string>
+    <plurals name="reservations_count">
+        <item quantity="zero">ليس لديك حجوزات</item>
+        <item quantity="one">لديك حجز واحد</item>
+        <item quantity="two">لديك حجزين</item>
+        <item quantity="many">لديك %d حجوزات</item>
+        <item quantity="few">لديك %d حجوزات</item>
+    </plurals>
 
     <!-- File Viewer -->
     <string name="file_viewer">عارض الملفات</string>
@@ -137,8 +149,12 @@
     <string name="powered_by">Powered by Informatique</string>
 
     <string name="enter_national_id">أدخل الرقم القومي</string>
+    <string name="national_id_checker">جاري التحقق...</string>
     <string name="enter_category">ادخل التصنيف</string>
     <string name="enter_type">اختر </string>
     <string name="enter_date">ادخل يوم الحجز</string>
+    <string name="select_date_first">اختر التاريخ أولاً</string>
     <string name="enter_time">اختر</string>
+    <string name="no_available_dates">لا توجد مواعيد متاحة</string>
+    <string name="sending_request">جاري الإرسال...</string>
 </resources>

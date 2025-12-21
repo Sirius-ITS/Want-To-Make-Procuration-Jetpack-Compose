@@ -836,7 +836,9 @@ private fun OfficeMapView(
                     Surface(
                         modifier = Modifier.size(48.dp),
                         shape = CircleShape,
-                        color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue,
+                        color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue.copy(
+                            alpha = 0.7f
+                        ),
                         shadowElevation = 4.dp
                     ) {
                         Box(contentAlignment = Alignment.Center) {
@@ -865,7 +867,7 @@ private fun OfficeMapView(
                         navController.navigate("office_details/${office.id}/${office.distance}/$showBookingButton")
                     },
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = extraColors.cardBackground,
                 shadowElevation = 8.dp
             ) {
                 Row(
@@ -879,7 +881,9 @@ private fun OfficeMapView(
                     Surface(
                         modifier = Modifier.size(60.dp),
                         shape = CircleShape,
-                        color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue,
+                        color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue.copy(
+                            alpha = 0.7f
+                        ),
                         shadowElevation = 4.dp
                     ) {
                         Box(contentAlignment = Alignment.Center) {

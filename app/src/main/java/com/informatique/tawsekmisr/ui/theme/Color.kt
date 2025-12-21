@@ -109,7 +109,7 @@ val CardDarkBackGroundDark  = Color(0xFF272A31)  // darker bluish card for selec
 val TextBlueLight    = Color(0xFF1D356B)   // section titles (matches your base)
 val TextBluebLight   = Color(0xFF1D356B)   // section titles (matches your base)
 val TextGrayLight    = Color(0xFF1A3564)   // secondary text
-val TextDarkGrayLight= Color(0xFF484848)   // body darker gray
+val TextDarkGrayLight= Color(0xFF696969)   // body darker gray
 
 val TextBlueDark     = Color(0xFFFFFFFF)   // titles in dark
 val TextBluebDark   = Color(0xFF1D356B)   // section titles (matches your base)

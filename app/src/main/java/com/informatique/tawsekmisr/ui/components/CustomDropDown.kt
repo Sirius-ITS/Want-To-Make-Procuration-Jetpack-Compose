@@ -291,6 +291,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.ArrowDropDown
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Search
@@ -366,9 +367,9 @@ fun CustomDropdown(
                     focusedBorderColor = if (error != null) Color(0xFFE74C3C) else Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
                     disabledBorderColor = Color.Transparent,
-                    focusedTextColor = extraColors.textBlue,
-                    unfocusedTextColor = extraColors.textBlue,
-                    disabledTextColor = extraColors.textBlue
+                    focusedTextColor = extraColors.textDarkGray,
+                    unfocusedTextColor = extraColors.textDarkGray,
+                    disabledTextColor = extraColors.textDarkGray
                 ),
                 readOnly = true,
                 enabled = false,
@@ -393,7 +394,7 @@ fun CustomDropdown(
                 } else null,
                 trailingIcon = {
                     Icon(
-                        imageVector = Icons.Rounded.ArrowDropDown,
+                        imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = "Dropdown Icon",
                         tint = if (enabled) extraColors.textDarkGray
                         else extraColors.textGray.copy(alpha = 0.3f)

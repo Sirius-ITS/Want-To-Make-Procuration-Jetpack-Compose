@@ -20,8 +20,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Button
@@ -30,7 +34,9 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -47,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -91,9 +98,6 @@ fun WebViewScreen(
     }
 
     // Get localized strings ONCE in composable context
-    val backContentDesc = localizedApp(R.string.webview_back)
-    val refreshContentDesc = localizedApp(R.string.webview_refresh)
-    val forwardContentDesc = localizedApp(R.string.webview_forward)
     val loadingText = localizedApp(R.string.webview_loading)
     val errorTitle = localizedApp(R.string.webview_error_title)
     val errorMessage = localizedApp(R.string.webview_error_message)
@@ -132,134 +136,41 @@ fun WebViewScreen(
     Scaffold(
         topBar = {
             Column {
-                // 🎯 Simple Top Bar matching rest of app
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = pageTitle,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            // ✅ Stop loading and navigate back immediately
-                            webView?.stopLoading()
-                            navController.popBackStack()
-                        }) {
-                            Icon(
-                                imageVector = Icons.Rounded.Close,
-                                contentDescription = "Close"
-                            )
+                WebViewTopBar(
+                    navController = navController,
+                    title = pageTitle,
+                    canGoBack = canGoBack,
+                    canGoForward = canGoForward,
+                    onBackClick = {
+                        if (canGoBack) {
+                            webView?.goBack()
                         }
                     },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = Color.White
-                    )
+                    onForwardClick = {
+                        webView?.goForward()
+                    },
+                    onRefreshClick = {
+                        webView?.reload()
+                    }
                 )
 
-                // ✅ Progress bar directly aligned at bottom of top bar
+                // Loading Progress Bar under TopBar
                 if (isLoading) {
                     LinearProgressIndicator(
-                        progress = { loadingProgress },
+                        progress = { loadingProgress / 100f },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(3.dp),
-                        color = Color(0xFF6EB3A6),
-                        trackColor = Color.Transparent
+                        color = extraColors.textBlue,
+                        trackColor = extraColors.textBlue.copy(alpha = 0.3f)
                     )
                 } else {
-                    // Spacer to maintain layout consistency
-                    Spacer(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(3.dp))
-                }
-            }
-        },
-        bottomBar = {
-            // Navigation Controls
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.White,
-                shadowElevation = 8.dp
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 20.dp, vertical = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Back button
-                    Surface(
+                    // Empty space to prevent layout shift
+                    Spacer(
                         modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .clickable(enabled = canGoBack) {
-                                webView?.let { view ->
-                                    if (view.canGoBack()) {
-                                        view.goBack()
-                                        // Update state immediately after navigation
-                                        updateNavigationState(view)
-                                    }
-                                }
-                            },
-                        color = if (canGoBack) Color(0xFF6EB3A6).copy(alpha = 0.15f)
-                        else Color(0xFFF2F4F7)
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = backContentDesc,
-                            tint = if (canGoBack) Color(0xFF6EB3A6) else Color.Gray,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
-
-                    // Forward button
-                    Surface(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .clickable(enabled = canGoForward) {
-                                webView?.let { view ->
-                                    if (view.canGoForward()) {
-                                        view.goForward()
-                                        // Update state immediately after navigation
-                                        updateNavigationState(view)
-                                    }
-                                }
-                            },
-                        color = if (canGoForward) Color(0xFF6EB3A6).copy(alpha = 0.15f)
-                        else Color(0xFFF2F4F7)
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
-                            contentDescription = forwardContentDesc,
-                            tint = if (canGoForward) Color(0xFF6EB3A6) else Color.Gray,
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
-
-                    // Refresh button
-                    Surface(
-                        modifier = Modifier
-                            .size(48.dp)
-                            .clip(CircleShape)
-                            .clickable {
-                                webView?.reload()
-                                hasError = false
-                            },
-                        color = Color(0xFF6EB3A6).copy(alpha = 0.15f)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Refresh,
-                            contentDescription = refreshContentDesc,
-                            tint = Color(0xFF6EB3A6),
-                            modifier = Modifier.padding(12.dp)
-                        )
-                    }
+                            .fillMaxWidth()
+                            .height(3.dp)
+                    )
                 }
             }
         }
@@ -487,3 +398,103 @@ fun WebViewScreen(
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun WebViewTopBar(
+    navController: NavController,
+    title: String,
+    canGoBack: Boolean,
+    canGoForward: Boolean,
+    onBackClick: () -> Unit,
+    onForwardClick: () -> Unit,
+    onRefreshClick: () -> Unit
+) {
+
+    val backContentDesc = localizedApp(R.string.webview_back)
+    val refreshContentDesc = localizedApp(R.string.webview_refresh)
+    val forwardContentDesc = localizedApp(R.string.webview_forward)
+
+    TopAppBar(
+        title = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = title,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 16.sp
+                ),
+                color = LocalExtraColors.current.textBlue,
+                textAlign = TextAlign.Center
+            )
+        },
+        navigationIcon = {
+            IconButton(
+                onClick = { navController.navigateUp() },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clip(CircleShape)
+                    .background(LocalExtraColors.current.iconLightBackground)
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = backContentDesc,
+                    tint = LocalExtraColors.current.white
+                )
+            }
+        },
+        actions = {
+            Row(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(LocalExtraColors.current.iconLightBackground)
+                    .padding(horizontal = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Previous Button
+                IconButton(
+                    onClick = onBackClick,
+                    enabled = canGoBack,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = backContentDesc,
+                        tint = if (canGoBack) LocalExtraColors.current.white else Color.Gray
+                    )
+                }
+
+                // Forward Button
+                IconButton(
+                    onClick = onForwardClick,
+                    enabled = canGoForward,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                        contentDescription = forwardContentDesc,
+                        tint = if (canGoForward) LocalExtraColors.current.white else Color.Gray
+                    )
+                }
+
+                // Refresh Button
+                IconButton(
+                    onClick = onRefreshClick,
+                    modifier = Modifier.size(40.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Refresh,
+                        contentDescription = refreshContentDesc,
+                        tint = LocalExtraColors.current.white
+                    )
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = LocalExtraColors.current.background,
+        )
+    )
+}
+

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -71,9 +72,9 @@ fun CustomRestrictedDatePicker(
                     focusedBorderColor = if (error != null) Color(0xFFE74C3C) else Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
                     disabledBorderColor = Color.Transparent,
-                    focusedTextColor = extraColors.textBlue,
-                    unfocusedTextColor = extraColors.textBlue,
-                    disabledTextColor = extraColors.textBlue
+                    focusedTextColor = extraColors.textDarkGray,
+                    unfocusedTextColor = extraColors.textDarkGray,
+                    disabledTextColor = extraColors.textDarkGray
                 ),
                 readOnly = true,
                 enabled = false,
@@ -81,7 +82,7 @@ fun CustomRestrictedDatePicker(
                     if (value.isEmpty() && placeholder != null) {
                         Text(
                             text = placeholder,
-                            color = extraColors.textGray,
+                            color = extraColors.textDarkGray,
                             fontSize = 16.sp
                         )
                     }
@@ -98,9 +99,9 @@ fun CustomRestrictedDatePicker(
                 } else null,
                 trailingIcon = {
                     Icon(
-                        imageVector = Icons.Rounded.DateRange,
+                        imageVector = Icons.Default.KeyboardArrowDown,
                         contentDescription = "Select date",
-                        tint = if (enabled) extraColors.textGray
+                        tint = if (enabled) extraColors.textDarkGray
                         else extraColors.textGray.copy(alpha = 0.3f)
                     )
                 },

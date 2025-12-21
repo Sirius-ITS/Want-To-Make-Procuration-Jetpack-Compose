@@ -16,8 +16,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -66,17 +68,17 @@ fun ReservationTicketScreen(
 
         // Success Icon
         Surface(
-            modifier = Modifier.size(120.dp),
+            modifier = Modifier.size(100.dp),
             shape = RoundedCornerShape(60.dp),
             color = extraColors.green
         ) {
             Icon(
-                imageVector = Icons.Rounded.CheckCircle,
+                imageVector = Icons.Default.Check,
                 contentDescription = "Success",
-                tint = extraColors.cardBackground,
+                tint = extraColors.white,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(30.dp)
+                    .padding(18.dp)
             )
         }
 
@@ -86,21 +88,21 @@ fun ReservationTicketScreen(
         Text(
             text = localizedApp(R.string.reservation_success_title),
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = extraColors.textBlue,
+            //fontWeight = FontWeight.Bold,
+            color = extraColors.white,
             textAlign = TextAlign.Center
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        // Success Subtitle
-        Text(
-            text = localizedApp(R.string.reservation_success_subtitle),
-            fontSize = 14.sp,
-            color = extraColors.textGray,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 32.dp)
-        )
+//        Spacer(modifier = Modifier.height(8.dp))
+//
+//        // Success Subtitle
+//        Text(
+//            text = localizedApp(R.string.reservation_success_subtitle),
+//            fontSize = 14.sp,
+//            color = extraColors.textGray,
+//            textAlign = TextAlign.Center,
+//            modifier = Modifier.padding(horizontal = 32.dp)
+//        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -121,7 +123,11 @@ fun ReservationTicketScreen(
                     extraColors = extraColors
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    thickness = 1.dp,
+                    color = extraColors.textDarkGray.copy(alpha = 0.2f)
+                )
 
                 // Office Name
                 TicketInfoRow(
@@ -130,7 +136,11 @@ fun ReservationTicketScreen(
                     extraColors = extraColors
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    thickness = 1.dp,
+                    color = extraColors.textDarkGray.copy(alpha = 0.2f)
+                )
 
                 // Attendance Number
                 TicketInfoRow(
@@ -139,16 +149,24 @@ fun ReservationTicketScreen(
                     extraColors = extraColors
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    thickness = 1.dp,
+                    color = extraColors.textDarkGray.copy(alpha = 0.2f)
+                )
 
                 // Reservation Date
                 TicketInfoRow(
-                    label = localizedApp(R.string.reservation_date),
+                    label = localizedApp(R.string.reservation_date_label),
                     value = reservationDate,
                     extraColors = extraColors
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 10.dp),
+                    thickness = 1.dp,
+                    color = extraColors.textDarkGray.copy(alpha = 0.2f)
+                )
 
                 // Reservation Time
                 TicketInfoRow(
@@ -165,9 +183,18 @@ fun ReservationTicketScreen(
         Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            color = extraColors.iconDarkBlue.copy(alpha = 0.1f)
+            color = extraColors.iconDarkBlue.copy(alpha = 0.07f)
         ) {
-            Row(
+
+            Text(
+                modifier = Modifier.padding(16.dp),
+                text = localizedApp(R.string.reservation_note_message),
+                fontSize = 13.sp,
+                color = extraColors.textBlue,
+                lineHeight = 30.sp
+            )
+
+            /*Row(
                 modifier = Modifier.padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
@@ -194,7 +221,7 @@ fun ReservationTicketScreen(
                         lineHeight = 18.sp
                     )
                 }
-            }
+            }*/
         }
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -239,7 +266,7 @@ private fun TicketInfoRow(
             text = value,
             fontSize = 14.sp,
             fontWeight = FontWeight.Normal,
-            color = extraColors.white,
+            color = extraColors.textBlue,
             modifier = Modifier.weight(1f)
         )
     }

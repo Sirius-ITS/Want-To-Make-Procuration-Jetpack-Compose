@@ -40,6 +40,7 @@ import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -190,7 +191,7 @@ fun HomePageScreen(navController: NavController) {
                         extraColors = extraColors
                     )
 
-                    Divider(
+                    HorizontalDivider(
                         color = Color.Gray,
                         modifier = Modifier
                             .height(40.dp)
@@ -206,7 +207,7 @@ fun HomePageScreen(navController: NavController) {
                         extraColors = extraColors
                     )
 
-                    Divider(
+                    HorizontalDivider(
                         color = Color.Gray,
                         modifier = Modifier
                             .height(40.dp)
@@ -370,7 +371,7 @@ private fun ServiceCardHorizontal(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(90.dp)
+            .height(95.dp)
             .scale(scale)
             .clickable {
                 isPressed = true

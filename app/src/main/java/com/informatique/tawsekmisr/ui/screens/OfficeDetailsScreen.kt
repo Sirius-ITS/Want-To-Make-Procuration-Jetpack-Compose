@@ -84,7 +84,7 @@ fun OfficeDetailsScreen(
 
     // Camera position state for Google Maps
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(officeLocation, 15f)
+        position = CameraPosition.fromLatLngZoom(officeLocation, 17f)
     }
 
     val officeIcon = getOfficeIcon(office)
@@ -117,20 +117,14 @@ fun OfficeDetailsScreen(
                     ) {
                         // Custom marker icon
                         Surface(
-                            modifier = Modifier.size(56.dp),
+                            modifier = Modifier.size(13.dp),
                             shape = CircleShape,
-                            color = extraColors.iconDarkBlue,
+                            color = extraColors.iconDarkBlue.copy(
+                                alpha = 0.7f
+                            ),
                             shadowElevation = 4.dp
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = officeIcon,
-                                    contentDescription = null,
-                                    tint = Color.White,
-                                    modifier = Modifier.size(32.dp)
-                                )
-                            }
-                        }
+                        ){}
+
                     }
                 }
 
@@ -142,12 +136,12 @@ fun OfficeDetailsScreen(
                         .size(48.dp)
                         .clip(CircleShape)
                         .clickable { navController.navigateUp() },
-                    color = extraColors.cardBackground
+                    color = extraColors.iconLightBackground
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                         contentDescription = "Back",
-                        tint = extraColors.textBlue,
+                        tint = extraColors.white,
                         modifier = Modifier.padding(12.dp)
                     )
                 }
@@ -157,9 +151,11 @@ fun OfficeDetailsScreen(
                     modifier = Modifier
                         .align(Alignment.Center)
                         .offset(y = (-40).dp)
-                        .size(80.dp),
+                        .size(57.dp),
                     shape = CircleShape,
-                    color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue,
+                    color = if (office.isPremium) extraColors.gold else extraColors.iconDarkBlue.copy(
+                        alpha = 0.7f
+                    ),
                     shadowElevation = 4.dp
                 ) {
                     Box(contentAlignment = Alignment.Center) {
@@ -167,7 +163,7 @@ fun OfficeDetailsScreen(
                             imageVector = officeIcon,
                             contentDescription = null,
                             tint = Color.White,
-                            modifier = Modifier.size(40.dp)
+                            modifier = Modifier.size(34.dp)
                         )
 
                         // Verified checkmark
@@ -219,7 +215,7 @@ fun OfficeDetailsScreen(
                             // Office Name only (removed Premium badge)
                             Text(
                                 text = office.name,
-                                fontSize = 24.sp,
+                                fontSize = 20.sp,
                                 color = extraColors.textBlue,
                                 fontWeight = FontWeight.Normal
                             )
@@ -249,7 +245,7 @@ fun OfficeDetailsScreen(
                                         )
                                         Text(
                                             text = office.city,
-                                            fontSize = 14.sp,
+                                            fontSize = 12.sp,
                                             color = extraColors.textBlue,
                                             fontWeight = FontWeight.Medium
                                         )
@@ -277,7 +273,7 @@ fun OfficeDetailsScreen(
                                         )
                                         Text(
                                             text = office.type,
-                                            fontSize = 14.sp,
+                                            fontSize = 12.sp,
                                             color = if (office.isPremium) extraColors.gold else extraColors.textBlue,
                                             fontWeight = FontWeight.Medium
                                         )
@@ -298,14 +294,14 @@ fun OfficeDetailsScreen(
                             ) {
                                 Text(
                                     text = String.format("%.1f", distance),
-                                    fontSize = 26.sp,
+                                    fontSize = 24.sp,
                                     color = extraColors.textBlue,
                                     fontWeight = FontWeight.Bold
                                 )
                                 Text(
                                     text = localizedApp(R.string.km_away),
-                                    fontSize = 16.sp,
-                                    color = extraColors.textGray,
+                                    fontSize = 14.sp,
+                                    color = extraColors.textDarkGray,
                                     fontWeight = FontWeight.Normal
                                 )
                             }
@@ -350,7 +346,7 @@ fun OfficeDetailsScreen(
                         icon = Icons.Rounded.Map,
                         iconColor = extraColors.iconDarkBlue,
                         label = localizedApp(R.string.office_action_directions),
-                        value = localizedApp(R.string.office_action_directions),
+                        value = localizedApp(R.string.office_action_directions_value),
                         extraColors = extraColors,
                         onClick = {
                             val intent = android.content.Intent(

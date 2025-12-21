@@ -1,6 +1,7 @@
 package com.informatique.tawsekmisr.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,12 +12,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
@@ -37,6 +41,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -148,11 +153,19 @@ fun OfficeReservationScreen(
             TopAppBar(
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
+                    Surface(
+                        modifier = Modifier
+                            .padding(horizontal = 16.dp)
+                            .size(48.dp)
+                            .clip(CircleShape)
+                            .clickable { navController.navigateUp() },
+                        color = extraColors.iconLightBackground
+                    ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
                             contentDescription = "Back",
-                            tint = extraColors.textBlue
+                            tint = extraColors.white,
+                            modifier = Modifier.padding(12.dp)
                         )
                     }
                 },
@@ -190,7 +203,6 @@ fun OfficeReservationScreen(
                             fontSize = 18.sp,
                             color = Color.White
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = orgTypeDesc,
                             fontSize = 16.sp,
@@ -234,16 +246,16 @@ fun OfficeReservationScreen(
                             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.CheckCircle,
+                                imageVector = Icons.Outlined.CheckCircle,
                                 contentDescription = null,
-                                tint = extraColors.lightGreen,
+                                tint = extraColors.textBlue,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = localizedApp(R.string.note_1),
                                 fontSize = 13.sp,
-                                color = extraColors.textGray
+                                color = extraColors.textDarkGray
                             )
                         }
 
@@ -254,16 +266,16 @@ fun OfficeReservationScreen(
                             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
                         ) {
                             Icon(
-                                imageVector = Icons.Rounded.CheckCircle,
+                                imageVector = Icons.Outlined.CheckCircle,
                                 contentDescription = null,
-                                tint = extraColors.lightGreen,
+                                tint = extraColors.textBlue,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 text = localizedApp(R.string.note_2),
                                 fontSize = 13.sp,
-                                color = extraColors.textGray
+                                color = extraColors.textDarkGray
                             )
                         }
                     }
@@ -275,24 +287,24 @@ fun OfficeReservationScreen(
                 Column {
                     Row {
                         Text(
-                            text = localizedApp(R.string.reservation_national_id),
+                            text = localizedApp(R.string.enter_national_id),
                             fontSize = 14.sp,
                             color = extraColors.textBlue,
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-//                        Text(
-//                            text = "*",
-//                            color = Color.Red,
-//                            fontSize = 14.sp
-//                        )
+                        Text(
+                            text = "*",
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
 
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     CustomTextField(
                         value = formState.nationalId,
                         onValueChange = { viewModel.updateNationalId(it) },
-                        label = localizedApp(R.string.reservation_national_id),
+                        label = localizedApp(R.string.enter_national_id),
                         isNumeric = true,
                         placeholder = localizedApp(R.string.enter_national_id),
                         error = formState.nationalIdError,
@@ -313,7 +325,7 @@ fun OfficeReservationScreen(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "جاري التحقق...",
+                            text = localizedApp(R.string.national_id_checker),
                             fontSize = 12.sp,
                             color = extraColors.textGray
                         )
@@ -350,11 +362,11 @@ fun OfficeReservationScreen(
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-//                        Text(
-//                            text = "*",
-//                            color = Color.Red,
-//                            fontSize = 14.sp
-//                        )
+                        Text(
+                            text = "*",
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
 
                     }
                     Spacer(modifier = Modifier.height(8.dp))
@@ -403,11 +415,11 @@ fun OfficeReservationScreen(
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-//                        Text(
-//                            text = "*",
-//                            color = Color.Red,
-//                            fontSize = 14.sp
-//                        )
+                        Text(
+                            text = "*",
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     if (typesLoading) {
@@ -452,12 +464,11 @@ fun OfficeReservationScreen(
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-//                        Text(
-//                            text = "*",
-//                            color = Color.Red,
-//                            fontSize = 14.sp
-//                        )
-
+                        Text(
+                            text = "*",
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     if (agendaLoading) {
@@ -485,7 +496,7 @@ fun OfficeReservationScreen(
                         )
                     } else {
                         Text(
-                            text = "لا توجد مواعيد متاحة",
+                            text = localizedApp(R.string.no_available_dates),
                             fontSize = 12.sp,
                             color = extraColors.textGray,
                             modifier = Modifier.padding(8.dp)
@@ -505,16 +516,16 @@ fun OfficeReservationScreen(
                             fontWeight = FontWeight.Medium
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-//                        Text(
-//                            text = "*",
-//                            color = Color.Red,
-//                            fontSize = 14.sp
-//                        )
+                        Text(
+                            text = "*",
+                            color = Color.Red,
+                            fontSize = 14.sp
+                        )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     CustomDropdown(
                         label = localizedApp(R.string.reservation_time),
-                        options = if (timeSlots.isNotEmpty()) timeSlots else listOf("اختر التاريخ أولاً"),
+                        options = timeSlots.ifEmpty { listOf(localizedApp(R.string.select_date_first)) },
                         selectedOption = formState.selectedTime,
                         onOptionSelected = { viewModel.updateAppointmentTime(it) },
                         error = formState.timeError,
@@ -603,7 +614,7 @@ fun OfficeReservationScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = "جاري الإرسال...",
+                            text = localizedApp(R.string.sending_request),
                             fontSize = 14.sp,
                             color = extraColors.textGray
                         )

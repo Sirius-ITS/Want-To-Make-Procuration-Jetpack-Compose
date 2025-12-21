@@ -1,5 +1,6 @@
 package com.informatique.tawsekmisr.ui.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,15 +15,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.informatique.tawsekmisr.ui.theme.LocalExtraColors
 
 @Composable
-fun CustomTextField(
+fun InquiryTextField(
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
@@ -42,6 +45,15 @@ fun CustomTextField(
 
     Column(modifier = Modifier.fillMaxWidth()) {
         OutlinedTextField(
+            modifier = Modifier.fillMaxWidth().border(
+                width = 1.dp,
+                color = when {
+                    isSuccess -> successColor
+                    error != null -> Color(0xFFE74C3C)
+                    else -> extraColors.textGray.copy(alpha = 0.3f)
+                },
+                shape = RoundedCornerShape(16.dp),
+            ),
             value = value,
             onValueChange = onValueChange,
             shape = RoundedCornerShape(16.dp),
@@ -49,11 +61,7 @@ fun CustomTextField(
                 focusedContainerColor = extraColors.cardBackground,
                 unfocusedContainerColor = extraColors.cardBackground,
                 disabledContainerColor = extraColors.cardBackground,
-                focusedBorderColor = when {
-                    isSuccess -> successColor
-                    error != null -> Color(0xFFE74C3C)
-                    else -> Color.Transparent
-                },
+                focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
                 disabledBorderColor = Color.Transparent,
                 focusedTextColor = extraColors.textDarkGray,
@@ -64,9 +72,11 @@ fun CustomTextField(
             placeholder = {
                 if (placeholder != null) {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = placeholder,
                         color = extraColors.textDarkGray,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center
                     )
                 }
             },
@@ -88,10 +98,12 @@ fun CustomTextField(
                     else -> KeyboardType.Text
                 }
             ),
-            modifier = Modifier.fillMaxWidth(),
             isError = error != null && !isSuccess,
             singleLine = true,
-            enabled = enabled
+            enabled = enabled,
+            textStyle = TextStyle(
+                textAlign = TextAlign.Center
+            )
         )
 
         if (error != null) {

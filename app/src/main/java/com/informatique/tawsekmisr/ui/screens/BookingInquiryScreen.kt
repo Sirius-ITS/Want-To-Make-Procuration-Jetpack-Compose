@@ -1,6 +1,8 @@
 package com.informatique.tawsekmisr.ui.screens
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -30,20 +33,19 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,8 +53,9 @@ import androidx.navigation.NavController
 import com.informatique.tawsekmisr.R
 import com.informatique.tawsekmisr.data.model.InquireReservation
 import com.informatique.tawsekmisr.ui.components.CommonButton
-import com.informatique.tawsekmisr.ui.components.CustomTextField
+import com.informatique.tawsekmisr.ui.components.InquiryTextField
 import com.informatique.tawsekmisr.ui.components.localizedApp
+import com.informatique.tawsekmisr.ui.components.localizedPluralsApp
 import com.informatique.tawsekmisr.ui.theme.LocalExtraColors
 import com.informatique.tawsekmisr.ui.viewmodels.BookingInquiryViewModel
 import com.informatique.tawsekmisr.ui.viewmodels.NationalIdValidationState
@@ -76,30 +79,7 @@ fun BookingInquiryScreen(
     val error by viewModel.error.collectAsState()
     val hasPerformedInquiry by viewModel.hasPerformedInquiry.collectAsState()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = localizedApp(R.string.service_booking_inquiry),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.navigateUp() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = "Back"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                )
-            )
-        }
-    ) { paddingValues ->
+    Scaffold { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -111,44 +91,76 @@ fun BookingInquiryScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Enhanced Header Card with Icon
+                Surface(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .clickable { navController.navigateUp() },
+                    color = extraColors.iconLightBackground
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = "Back",
+                        tint = extraColors.white,
+                        modifier = Modifier.padding(12.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Text(
+                    text = localizedApp(R.string.service_booking_inquiry),
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = extraColors.textBlue,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+            }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(20.dp),
+                    border = BorderStroke(1.dp, extraColors.textGray.copy(alpha = 0.5f)),
                     color = extraColors.cardBackground,
-                    shadowElevation = 4.dp
+                    shadowElevation = 0.dp
                 ) {
                     Row(
                         modifier = Modifier.padding(20.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Icon with gradient background
+
                         Surface(
-                            modifier = Modifier.size(56.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            color = extraColors.iconLightBackground
+                            modifier = Modifier.size(50.dp),
+                            shape = CircleShape,
+                            color = extraColors.iconDarkBlue
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Search,
                                 contentDescription = null,
-                                tint = extraColors.iconLightBlue,
+                                tint = extraColors.cardBackground,
                                 modifier = Modifier.padding(12.dp)
                             )
                         }
 
-                        Column(modifier = Modifier.weight(1f)) {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            horizontalAlignment = Alignment.Start
+                        ) {
                             Text(
-                                text = "استعلام عن حجوزاتك",
+                                text = localizedApp(R.string.quick_inquiry_title),
                                 fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
                                 color = extraColors.textBlue
                             )
-                            Spacer(modifier = Modifier.height(4.dp))
+                            Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "أدخل الرقم القومي للاستعلام عن جميع حجوزاتك",
+                                text = localizedApp(R.string.quick_inquiry_desc),
                                 fontSize = 13.sp,
-                                color = extraColors.textGray,
+                                color = extraColors.textDarkGray,
                                 lineHeight = 18.sp
                             )
                         }
@@ -159,65 +171,88 @@ fun BookingInquiryScreen(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // National ID Field
-                CustomTextField(
-                    value = nationalId,
-                    onValueChange = { viewModel.updateNationalId(it) },
-                    label = localizedApp(R.string.reservation_national_id),
-                    isNumeric = true,
-                    placeholder = localizedApp(R.string.enter_national_id),
-                    error = nationalIdError,
-                    mandatory = true
-                )
+                Surface(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(20.dp),
+                    border = BorderStroke(1.dp, extraColors.textGray.copy(alpha = 0.5f)),
+                    color = extraColors.cardBackground,
+                    shadowElevation = 0.dp
+                ) {
 
-                // Show validation status
-                if (nationalIdValidation is NationalIdValidationState.Loading) {
-                    Row(
-                        modifier = Modifier.padding(top = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(16.dp),
-                            strokeWidth = 2.dp
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
+                    Column(
+                        modifier = Modifier.padding(20.dp)
+                    ){
                         Text(
-                            text = "جاري التحقق...",
-                            fontSize = 12.sp,
-                            color = extraColors.textGray
+                            text = localizedApp(R.string.reservation_national_id),
+                            fontSize = 14.sp,
+                            color = extraColors.textBlue,
+                            fontWeight = FontWeight.Medium
+                        )
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        // National ID Field
+                        InquiryTextField(
+                            value = nationalId,
+                            onValueChange = { viewModel.updateNationalId(it) },
+                            label = localizedApp(R.string.reservation_national_id),
+                            isNumeric = true,
+                            placeholder = localizedApp(R.string.enter_national_id),
+                            error = nationalIdError,
+                            mandatory = true
+                        )
+
+                        // Show validation status
+                        if (nationalIdValidation is NationalIdValidationState.Loading) {
+                            Row(
+                                modifier = Modifier.padding(top = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(16.dp),
+                                    strokeWidth = 2.dp,
+                                    color = extraColors.accent
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = localizedApp(R.string.national_id_checker),
+                                    fontSize = 12.sp,
+                                    color = extraColors.textGray
+                                )
+                            }
+                        } else if (nationalIdValidation is NationalIdValidationState.Valid) {
+                            Row(
+                                modifier = Modifier.padding(top = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Rounded.CheckCircle,
+                                    contentDescription = "Valid",
+                                    tint = extraColors.green,
+                                    modifier = Modifier.size(16.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = localizedApp(R.string.national_id_valid),
+                                    fontSize = 12.sp,
+                                    color = extraColors.green
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(18.dp))
+
+                        // Inquiry Button
+                        CommonButton(
+                            text = localizedApp(R.string.booking_inquiry_btn),
+                            backgroundColor = if (isLoading || nationalIdValidation !is NationalIdValidationState.Valid) extraColors.textDarkGray else extraColors.iconDarkBlue,
+                            enabled = !isLoading || nationalIdValidation is NationalIdValidationState.Valid,
+                            onClick = { if (!isLoading || nationalIdValidation is NationalIdValidationState.Valid) viewModel.fetchReservations() }
                         )
                     }
-                } else if (nationalIdValidation is NationalIdValidationState.Valid) {
-                    Row(
-                        modifier = Modifier.padding(top = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.CheckCircle,
-                            contentDescription = "Valid",
-                            tint = Color(110, 179, 166),
-                            modifier = Modifier.size(16.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "الرقم القومي صحيح",
-                            fontSize = 12.sp,
-                            color = Color(110, 179, 166)
-                        )
-                    }
+
                 }
-            }
 
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // Inquiry Button
-                CommonButton(
-                    text = "استعلام",
-                    backgroundColor = extraColors.iconDarkBlue,
-                    enabled = !isLoading,
-                    onClick = { viewModel.fetchReservations() }
-                )
             }
 
             // Loading indicator
@@ -277,10 +312,11 @@ fun BookingInquiryScreen(
             if (filteredReservations.isNotEmpty()) {
                 item {
                     Text(
-                        text = "حجوزاتك (${filteredReservations.size})",
-                        fontSize = 18.sp,
+                        text = localizedPluralsApp(R.plurals.reservations_count,
+                            filteredReservations.size, filteredReservations.size),
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = extraColors.white,
+                        color = extraColors.textBlue,
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }
@@ -381,65 +417,37 @@ private fun ReservationCard(reservation: InquireReservation) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.AccountBalance,
-                        contentDescription = null,
-                        tint = LocalExtraColors.current.iconDarkBlue,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        text = reservation.orgName,
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = LocalExtraColors.current.textBlue,
-                        modifier = Modifier.weight(1f, fill = false)
-                    )
-                }
+                Text(
+                    text = reservation.orgName,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = LocalExtraColors.current.textBlue,
+                    modifier = Modifier.weight(1f, fill = false)
+                )
 
-//                // Queue ID Badge
-//                Surface(
-//                    shape = RoundedCornerShape(6.dp),
-//                    color = Color(98, 138, 236).copy(alpha = 0.15f)
-//                ) {
-//                    Text(
-//                        text = "#${reservation.queVipId}",
-//                        fontSize = 11.sp,
-//                        fontWeight = FontWeight.Bold,
-//                        color = Color(98, 138, 236),
-//                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-//                    )
-//                }
             }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            HorizontalDivider(color = Color(0xFFE8E8E8))
 
             Spacer(modifier = Modifier.height(12.dp))
 
             // Transaction Category
             InfoRow(
                 icon = Icons.Rounded.Category,
-                iconColor =LocalExtraColors.current.iconLightBlue,
-                label = "التصنيف",
+                iconColor =LocalExtraColors.current.textBlue,
+                // label = "التصنيف",
                 value = reservation.transactionDesc
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Transaction Type
             InfoRow(
                 icon = Icons.Rounded.Description,
-                iconColor =LocalExtraColors.current.iconLightBlue,
-                label = "نوع المعاملة",
+                iconColor =LocalExtraColors.current.textBlue,
+                // label = "نوع المعاملة",
                 value = reservation.transactionTypeDesc
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(6.dp))
 
             // Date and Time
             Row(
@@ -450,8 +458,8 @@ private fun ReservationCard(reservation: InquireReservation) {
                 Box(modifier = Modifier.weight(1f)) {
                     InfoRow(
                         icon = Icons.Rounded.CalendarMonth,
-                        iconColor =LocalExtraColors.current.iconLightBlue,
-                        label = "التاريخ",
+                        iconColor =LocalExtraColors.current.textBlue,
+                        // label = "التاريخ",
                         value = formattedDate
                     )
                 }
@@ -460,8 +468,8 @@ private fun ReservationCard(reservation: InquireReservation) {
                 Box(modifier = Modifier.weight(1f)) {
                     InfoRow(
                         icon = Icons.Rounded.Schedule,
-                        iconColor =LocalExtraColors.current.iconLightBlue,
-                        label = "الوقت",
+                        iconColor =LocalExtraColors.current.textBlue,
+                        // label = "الوقت",
                         value = formattedTime
                     )
                 }
@@ -474,39 +482,25 @@ private fun ReservationCard(reservation: InquireReservation) {
 private fun InfoRow(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     iconColor: Color,
-    label: String,
     value: String
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Surface(
-            modifier = Modifier.size(32.dp),
-            shape = RoundedCornerShape(16.dp),
-            color = LocalExtraColors.current.iconLightBackground
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = iconColor,
-                modifier = Modifier.padding(6.dp)
-            )
-        }
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = iconColor,
+            modifier = Modifier.size(20.dp)/*.padding(6.dp)*/
+        )
 
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = label,
-                fontSize = 11.sp,
-                color =LocalExtraColors.current.textGray
-            )
-            Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = value,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = LocalExtraColors.current.textBlue
-            )
-        }
+        Text(
+            modifier = Modifier.weight(1f),
+            text = value,
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = LocalExtraColors.current.textDarkGray
+        )
     }
 }
